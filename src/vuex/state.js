@@ -2,7 +2,11 @@
  * Created by Y on 2018/10/25.
  */
 const state = {
-  userName: ''
+  userName: '',
+  account: {},
+  profile: {
+  	avrUrl: 'https://test.png'
+  }
 };
 
 export default state;

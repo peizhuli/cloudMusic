@@ -29,6 +29,7 @@
 <script>
   import service from '../../service/service';
   import util from '../../utils/util';
+  import {mapState, mapMutations} from 'vuex';
   export default {
       data() {
           return {
@@ -37,14 +38,15 @@
           }
       },
     methods: {
+        ...mapMutations(['SET_PROFILE']),
           login: function() {
               var vm = this;
               service.loginWidthEmail(vm.userName, vm.password).then(function(res) {
-                  console.log(res);
                   if(res.loginType == 0) {
                       alert('登录成功');
+                      vm.SET_PROFILE(res.profile);
                       util.setSessionStore('userName', res.bindings["0"].tokenJsonStr);
-                      vm.$router.push('/');
+                      vm.$router.push('/account');
                   }
               })
           }
