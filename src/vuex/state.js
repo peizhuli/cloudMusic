@@ -3,7 +3,10 @@
  */
 const state = {
   account: {},
-  profile: {}
+  profile: {},
+  collectList: [],
+  playList: [],
+  focusList: []
 };
 
 export default state;

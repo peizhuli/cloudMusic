@@ -49,7 +49,7 @@
       },
       getDailyRecomments: function() {
         var vm = this;
-        service.getDailyRecomment().then(function(res) {
+        service.getRecommendMusic().then(function(res) {
            console.log(res);
         });
       },

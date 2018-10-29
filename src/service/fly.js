@@ -2,9 +2,9 @@
  * Created by Y on 2018/10/19.
  */
 import request from 'flyio';
-request.interceptors.request.use( request => {
-
- return request;
+request.interceptors.request.use( req => {
+ req.withCredentials = true;
+ return req;
 });
 
 request.interceptors.response.use( (response, promise) => {

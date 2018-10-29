@@ -5,6 +5,7 @@
         <p>昵称：{{ profile.nickname }}</p>
         <p>描述：{{ profile.description }}</p>
         <p>是否VIP：{{ profile.vipType == 0 ? '否' : '是' }}</p>
+      <router-view></router-view>
     </div>
 </template>
 
@@ -23,9 +24,9 @@ mounted() {
 	 ...mapState(['profile'])
 	},
 	methods: {
-	getUserInfo: function() {
-	  console.log(this.profile);
-	}
+    getUserInfo: function() {
+      console.log(this.profile);
+    }
 	}
 }
 </script>

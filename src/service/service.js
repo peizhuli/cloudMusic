@@ -14,9 +14,32 @@ const API = {
   getUserDetailInfo: (uid) => request.get('/user/detail?uid=' + uid, null, BASEAPI),
   //获取用户i小，歌单，收藏等
   getUserSubcount: () => request.get('/user/subcount', null, BASEAPI),
+  //获取用户歌单
+  getUserSongs: (uid) => request.get('/user/playlist?uid=' + uid, null, BASEAPI),
+  //获取用户电台
+  getUerDjLists: (uid) => request.get('/user/dj?uid=' + uid, null, BASEAPI),
+  //获取用户关注列表
+  getUserFocusList: (uid, limit=30, offset=0) => request.get('/user/follows?uid=' + uid + '&limit=' + limit + '&offset=' + offset, null, BASEAPI),
+  //获取用户粉丝列表
+  getUserFans: (uid, limit=30, offset=0) => request.get('/user/followeds?uid=' + uid + '&limit=' + limit + '&offset=' + offset, null, BASEAPI),
+  //获取用户播放记录（type=1，返回一周记录， type=0返回全部记录）
+  getUserPlayLists: (uid, type = 1) => request.get('user/record?uid=' + uid + '&type=' + type),
+  //获取用户动态
+  getUserNews: (uid) => request.get('/user/event?uid=' + uid, null, BASEAPI),
 
   //banner
   getBanner: () => request.get('/banner', null, BASEAPI),
+  //搜索（type: 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频）
+  searMusic: (keyword, type=1, limit=30, offset=0) => request.get('/search?keywords=' + keyword + '&type=' + type + '&limit=' + limit + '&offset=' + offset, null, BASEAPI),
+  //热搜
+  getHotSearch: () => request.get('/search/hot', null, BASEAPI),
+  //热搜建议
+  hotSearchSuggest: (keyword, type=1, limit=30, offset=0) => request.get('/search/suggest?keywords=' + keyword + '&type=' + type + '&limit=' + limit + '&offset=' + offset, null, BASEAPI),
+  //多重搜索
+  mutiSearch: (keywords) => request.get('search/multimatch?keywords=' + keywords, null, BASEAPI),
+
+  //歌手分类（华语、欧美...）
+  getArtisType: (cat, limit=30, offset=0) => request.get('artist/list?cat=' + cat + '&limit=' + limit + '&offset=' + offset, null, BASEAPI),
   //歌单分类
   getPlayList: () => request.get('/playlist/catlist', null, BASEAPI),
   //热门歌单分类
@@ -31,21 +54,21 @@ const API = {
   getPlayDetailInfo: (id) => request.get('/playlist/detail?id=' + id, null, BASEAPI),
   //获取歌单播放地址
   getPlayUrl: (id) => request.get('/song/url?id=' + id, null, BASEAPI),
+  //获取歌词
+  getIcy: (id) => request.get('/lyric?id=' + id, null, BASEAPI),
+  //歌曲评论
+  getMusicComment: (id, limit=20, offset=0) => request.get('/comment/music?id=' + id + '&limit=' + limit + '&offset=' + offset, null, BASEAPI),
   //音乐是否可用
   checkCanPlay: (id) => request.get('/check/music?id=' + id, null, BASEAPI),
-  //搜索
-  searchPlay: (keyword) => request.get('/search?keywords=' + keyword, null, BASEAPI),
-  //热搜
-  getHotSearch: () => request.get('/search/hot', null, BASEAPI),
-  //热搜建议
-
+  //收藏/取消收藏歌单（type：1:收藏,2:取消收藏）
+  toggleCollectMusic: (type, id) => request.get('/playlist/subscribe?t=' + type + '&id=' + id, null, BASEAPI),
 
   //热门歌手
-  getHotSinger: (limit, page) => request.get('/top/artists?offset=' + page + '&limit=' + limit, null, BASEAPI),
+  getHotSinger: (limit=30, offset=0) => request.get('/top/artists?offset=' + offset + '&limit=' + limit, null, BASEAPI),
   //获取专辑内容
   getAlbum: (id) => request.get('/album?id=' + id, null, BASEAPI),
   //获取歌手单曲
-  getArtistSongs: (id) => request('/artists?id=' + id, null, BASEAPI),
+  getArtistSongs: (id) => request.get('/artists?id=' + id, null, BASEAPI),
   //获取歌手MV
   getArtistMV: (id) => request.get('/artist/mv?id=' + id, null, BASEAPI),
   //获取歌手专辑
@@ -59,9 +82,9 @@ const API = {
   //获取相似MV
   getSimilarMV: (id) => request.get('/simi/mv?mvid=' + id, null, BASEAPI),
   //每日推荐歌单
-  getDailyRecomment: () => request.get('/recommend/resource', null, BASEAPI),
+  getDailyRecomment: () => request.get('/recommend/resource?time=' + new Date(), null, BASEAPI),
   //最新MV
-  getNewMV: (limit) => request.get('/mv/first?limit=' + limit, null, BASEAPI),
+  getNewMV: (limit=30) => request.get('/mv/first?limit=' + limit, null, BASEAPI),
 
   //推荐MV
   getRecommendMV: () => request.get('/personalized/mv', null, BASEAPI),
@@ -76,7 +99,7 @@ const API = {
   //独家放送
   getPrivateContent: () => request.get('/personalized/privatecontent', null, BASEAPI),
   //mv排行榜
-  getTopMV: (limit, page) => request.get('top/mv?limit=' + limit + '&offset=' + page, null, BASEAPI),
+  getTopMV: (limit=30, offset=0) => request.get('top/mv?limit=' + limit + '&offset=' + offset, null, BASEAPI),
   //获取MV数据
   getMVDetail: (mvId) => request.get('/mv/detail?mvid=' + mvId, null, BASEAPI),
   //mv地址
@@ -98,11 +121,11 @@ const API = {
   //电台订阅列表
   getDJSubList: () => request.get('/dj/sublist', null, BASEAPI),
   //电台付费精选
-  getDJPayList: (limit, page) => request.get('/dj/paygift?limit=' + limit + '&offset=' + page, null, BASEAPI),
+  getDJPayList: (limit=30, offset=0) => request.get('/dj/paygift?limit=' + limit + '&offset=' + offset, null, BASEAPI),
   //电台-详情
   getDJDetail: (id) => request.get('/dj/detail?rid=' + id, null, BASEAPI),
   //电台-节目
-  getDJPrograme: (id, limit, page) => request.get('/dj/program?rid=' + id + '&limit=' + limit + '&offset=' + page, null, BASEAPI),
+  getDJPrograme: (id, limit=30, offset=0) => request.get('/dj/program?rid=' + id + '&limit=' + limit + '&offset=' + offset, null, BASEAPI),
 
   //歌曲详情
 
