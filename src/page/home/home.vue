@@ -12,6 +12,9 @@
         </div>
       </CarouselItem>
     </Carousel>
+
+    <p>个性推荐</p>
+    <div>推荐歌单</div>
   </div>
 </template>
 
@@ -20,6 +23,7 @@
   export default {
       mounted() {
           this.getBanners();
+          this.getDailyRecomments();
       },
       data() {
           return {
@@ -42,7 +46,13 @@
                     this.$router.push({ path: '/album/albumDetail', query: { id : id} });
                   }
               }
-      }
+      },
+      getDailyRecomments: function() {
+        var vm = this;
+        service.getDailyRecomment().then(function(res) {
+           console.log(res);
+        });
+      },
     }
   }
 </script>

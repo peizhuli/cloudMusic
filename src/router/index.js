@@ -4,7 +4,6 @@ import Router from 'vue-router'
 import Home from '@/page/home/home';
 import Login from '@/page/login/login';
 import Account from '@/page/account/account';
-
 import Album from '@/page/album/album';
 import AlbumDetail from '@/page/album/albumDetail'
 Vue.use(Router);
