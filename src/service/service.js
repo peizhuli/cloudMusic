@@ -11,6 +11,7 @@ const API = {
   loginWidthPhone: (phoneNum, password) => request.post('/login/cellphone?phone=' + phoneNum + '&password=' + password, null, BASEAPI),
   loginWidthEmail: (email, password) => request.post('/login?email=' + email + '&password=' + password, null, BASEAPI),
   logout: () => request.get('/logout', null, BASEAPI),
+  getUserState: (id) => request.get('/user/detail?uid=' + id, null, BASEAPI),
   getUserDetailInfo: (uid) => request.get('/user/detail?uid=' + uid, null, BASEAPI),
   //获取用户i小，歌单，收藏等
   getUserSubcount: () => request.get('/user/subcount', null, BASEAPI),
@@ -23,7 +24,7 @@ const API = {
   //获取用户粉丝列表
   getUserFans: (uid, limit=30, offset=0) => request.get('/user/followeds?uid=' + uid + '&limit=' + limit + '&offset=' + offset, null, BASEAPI),
   //获取用户播放记录（type=1，返回一周记录， type=0返回全部记录）
-  getUserPlayLists: (uid, type = 1) => request.get('user/record?uid=' + uid + '&type=' + type),
+  getUserPlayLists: (uid, type = 1) => request.get('/user/record?uid=' + uid + '&type=' + type, null, BASEAPI),
   //获取用户动态
   getUserNews: (uid) => request.get('/user/event?uid=' + uid, null, BASEAPI),
 
@@ -39,13 +40,13 @@ const API = {
   mutiSearch: (keywords) => request.get('search/multimatch?keywords=' + keywords, null, BASEAPI),
 
   //歌手分类（华语、欧美...）
-  getArtisType: (cat, limit=30, offset=0) => request.get('artist/list?cat=' + cat + '&limit=' + limit + '&offset=' + offset, null, BASEAPI),
+  getArtisType: (cat, limit=30, offset=0, initial) => request.get('/artist/list?cat=' + cat + '&limit=' + limit + '&offset=' + offset + '&initial=' + initial, null, BASEAPI),
   //歌单分类
   getPlayList: () => request.get('/playlist/catlist', null, BASEAPI),
   //热门歌单分类
   getHotPlayList: () => request.get('/playlist/hot', null, BASEAPI),
   //歌单（网友精选碟）
-  getWellChosenList: (limit, order) => request.get('/top/playlist?limit=' + limit + '&order=' + order, null, BASEAPI),
+  getWellChosenList: (cat='全部', limit=20, offset=0, order='hot') => request.get('/top/playlist?cat=' + cat + '&limit=' + limit + '&offset=' + offset + '&order=' + order, null, BASEAPI),
   //精品歌单（before：取上一页最后一个歌单的updateTime获取下一页数据）
   getWellPlayList: (before, limit) => request.get('/top/playlist/highquality?before=' + before + '&limit=' + limit, null, BASEAPI),
   //获取歌单相关推荐

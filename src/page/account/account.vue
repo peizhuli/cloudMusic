@@ -5,7 +5,8 @@
         <p>昵称：{{ profile.nickname }}</p>
         <p>描述：{{ profile.description }}</p>
         <p>是否VIP：{{ profile.vipType == 0 ? '否' : '是' }}</p>
-      <router-view></router-view>
+      <div @click="goCollections(profile.userId)">个人收藏</div>
+      <div @click="goPlayRecord(profile.userId)">播放记录</div>
     </div>
 </template>
 
@@ -26,6 +27,12 @@ mounted() {
 	methods: {
     getUserInfo: function() {
       console.log(this.profile);
+    },
+    goCollections: function(id) {
+      this.$router.push({path: '/collection', query: { id: id }});
+    },
+    goPlayRecord: function(id) {
+      this.$router.push({path: '/playRecord', query: { id: id }})
     }
 	}
 }

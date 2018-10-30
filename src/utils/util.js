@@ -31,7 +31,7 @@ export default {
     window.localStorage.removeItem(attr);
   },
   setCookie: (name,value,time) => {
-    var strsec = getsec(time);
+    var strsec = time;
     var exp = new Date();
     exp.setTime(exp.getTime() + strsec*1);
     document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();

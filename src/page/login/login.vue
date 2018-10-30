@@ -42,12 +42,15 @@
           login: function() {
               var vm = this;
               service.loginWidthEmail(vm.userName, vm.password).then(function(res) {
-                  if(res.loginType == 0) {
-                      alert('登录成功');
-                      vm.SET_PROFILE(res.profile);
-                      util.setSessionStore('userName', res.bindings["0"].tokenJsonStr);
-                      vm.$router.push('/account');
-                  }
+                  util.setCookie('tokenJsonStr', res.bindings["0"].tokenJsonStr, res.bindings["0"].expiresIn);
+                  vm.SET_PROFILE(res.profile);
+                  util.setSessionStore('userName', res.bindings["0"].tokenJsonStr);
+                  service.getUserState(res.profile.userId).then(function(res) {
+                      if(res.adValid) {
+                        alert('登陆成功！');
+                        vm.$router.push('/account');
+                      }
+                  });
               })
           }
     }

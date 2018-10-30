@@ -9,12 +9,16 @@ import Person_PlayRecord from '@/page/account/personal_playRecod';
 
 import Singer from '@/page/singers/singers';
 import ArtistPlay from '@/page/singers/artistPlay';
+import artistType from '@/page/singers/artistType'
 import PlayMusic from '@/page/singers/playMusic';
 import PlayMV from '@/page/MVs/playMV';
 import TopMV from '@/page/MVs/rankMV'
 
 import Album from '@/page/album/album';
-import AlbumDetail from '@/page/album/albumDetail'
+import AlbumDetail from '@/page/album/albumDetail';
+import songsCategory from '@/page/songs/songsCategory';
+import songsCategoryDetail from '@/page/songs/songsCategoryDetail';
+
 Vue.use(Router);
 
 const routes = new Router({
@@ -29,7 +33,7 @@ const routes = new Router({
     },
     {
       path: '/login',
-        name: 'login',
+      name: 'login',
       component: Login
     },
     {
@@ -38,19 +42,23 @@ const routes = new Router({
       component: Account,
       meta: {
       requireAuth: true
-      },
-      children: [
-        {
-          path: 'collection',
-          name: 'collection',
-          component: Person_Collection
-        },
-        {
-          path: 'playRecord',
-          name: 'playRecord',
-          component: Person_PlayRecord
-        }
-      ]
+      }
+    },
+    {
+      path: '/collection',
+      name: 'collection',
+      component: Person_Collection,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/playRecord',
+      name: 'playRecord',
+      component: Person_PlayRecord,
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: '/singer',
@@ -61,6 +69,11 @@ const routes = new Router({
       path: '/artistPlay',
       name: 'ArtistPlay',
       component: ArtistPlay
+    },
+    {
+      path: '/artistType',
+      name: 'artistType',
+      component: artistType
     },
     {
       path: '/playMusic',
@@ -79,15 +92,25 @@ const routes = new Router({
     },
     {
       path: '/album',
-        component: Album,
+      component: Album,
       children: [
-      {
-        path: 'albumDetail',
-        name: 'albumDetail',
-        component: AlbumDetail
-      }
-    ]
-  }
+        {
+          path: 'albumDetail',
+          name: 'albumDetail',
+          component: AlbumDetail
+        }
+      ]
+    },
+    {
+      path: '/songsCategory',
+      name: 'songsCategory',
+      component: songsCategory
+    },
+    {
+      path: '/songsCategoryDetail',
+      name: 'songsCategoryDetail',
+      component: songsCategoryDetail
+    }
   ]
 });
 
