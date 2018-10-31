@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Home from '@/page/home/home';
+import Search from '@/page/search/search';
+
 import Login from '@/page/login/login';
 import Account from '@/page/account/account';
 import Person_Collection from '@/page/account/personal_collection';
@@ -18,6 +20,8 @@ import Album from '@/page/album/album';
 import AlbumDetail from '@/page/album/albumDetail';
 import songsCategory from '@/page/songs/songsCategory';
 import songsCategoryDetail from '@/page/songs/songsCategoryDetail';
+
+import DJs from '@/page/DJs/DJs';
 
 Vue.use(Router);
 
@@ -59,6 +63,11 @@ const routes = new Router({
       meta: {
         requireAuth: true
       }
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: Search
     },
     {
       path: '/singer',
@@ -110,6 +119,11 @@ const routes = new Router({
       path: '/songsCategoryDetail',
       name: 'songsCategoryDetail',
       component: songsCategoryDetail
+    },
+    {
+      path: '/DJs',
+      name: 'DJs',
+      component: DJs
     }
   ]
 });

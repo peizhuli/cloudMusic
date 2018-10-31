@@ -1,56 +1,60 @@
 <template>
   <div>
-    <div class="search-box">
-      <Input placeholder="search text" style="width: auto">
-        <Icon type="ios-search" slot="suffix" />
-      </Input>
-    </div>
-    <Carousel :autoplay="true" :loop="true" :autoplay-speed="2000">
-      <CarouselItem v-for="item in banners" :key="item.url">
-        <div class="demo-carousel">
-          <img :src="item.picUrl" @click="goTarget(item.targetId)" />
-        </div>
-      </CarouselItem>
-    </Carousel>
+    <Tabs value="name1">
+      <TabPane label="个性推荐" name="name1">
+        <Carousel :autoplay="true" :loop="true" :autoplay-speed="2000">
+          <CarouselItem v-for="item in banners" :key="item.url">
+            <div class="demo-carousel">
+              <img :src="item.picUrl" @click="goTarget(item.targetId)" />
+            </div>
+          </CarouselItem>
+        </Carousel>
+        <p>个性推荐</p>
+        <div>推荐歌单</div>
+        <ul class="recommend-play-list">
+          <li class="recommend-play-item" v-for="item in recommendMusic" :key="item.id" @click="goPlayMusic(item.id)">
+            <img :src="item.picUrl" />
+            <p>推荐理由：{{ item.copywriter }}</p>
+            <p>{{ item.name }}</p>
+            <p>播放次数：{{ item.playCount }}</p>
+          </li>
+        </ul>
 
-    <p>个性推荐</p>
-    <div>推荐歌单</div>
-    <ul class="recommend-play-list">
-      <li class="recommend-play-item" v-for="item in recommendMusic" :key="item.id" @click="goPlayMusic(item.id)">
-        <img :src="item.picUrl" />
-        <p>推荐理由：{{ item.copywriter }}</p>
-        <p>{{ item.name }}</p>
-        <p>播放次数：{{ item.playCount }}</p>
-      </li>
-    </ul>
+        <div>推荐MV</div>
+        <ul class="recommend-play-list">
+          <li class="recommend-play-item" v-for="item in recommendMVs" :key="item.id" @click="goPlayMV(item.id)">
+            <img :src="item.picUrl" />
+            <p>推荐理由：{{ item.copywriter }}</p>
+            <p>{{ item.name }}</p>
+            <p>播放次数：{{ item.playCount }}</p>
+          </li>
+        </ul>
 
-    <div>推荐MV</div>
-    <ul class="recommend-play-list">
-      <li class="recommend-play-item" v-for="item in recommendMVs" :key="item.id" @click="goPlayMV(item.id)">
-        <img :src="item.picUrl" />
-        <p>推荐理由：{{ item.copywriter }}</p>
-        <p>{{ item.name }}</p>
-        <p>播放次数：{{ item.playCount }}</p>
-      </li>
-    </ul>
+        <div>独家放送</div>
+        <ul class="recommend-play-list">
+          <li class="recommend-play-item" v-for="item in privateContents" :key="item.id" @click="">
+            <img :src="item.picUrl" />
+            <p>推荐理由：{{ item.copywriter }}</p>
+            <p>{{ item.name }}</p>
+          </li>
+        </ul>
 
-    <div>独家放送</div>
-    <ul class="recommend-play-list">
-      <li class="recommend-play-item" v-for="item in privateContents" :key="item.id" @click="">
-        <img :src="item.picUrl" />
-        <p>推荐理由：{{ item.copywriter }}</p>
-        <p>{{ item.name }}</p>
-      </li>
-    </ul>
-
-    <div>推荐电台</div>
-    <ul class="recommend-play-list">
-      <li class="recommend-play-item" v-for="item in getRecommendDJs" :key="item.id" @click="">
-        <img :src="item.picUrl" />
-        <p>推荐理由：{{ item.copywriter }}</p>
-        <p>{{ item.name }}</p>
-      </li>
-    </ul>
+        <div>推荐电台</div>
+        <ul class="recommend-play-list">
+          <li class="recommend-play-item" v-for="item in getRecommendDJs" :key="item.id" @click="">
+            <img :src="item.picUrl" />
+            <p>推荐理由：{{ item.copywriter }}</p>
+            <p>{{ item.name }}</p>
+          </li>
+        </ul>
+      </TabPane>
+      <TabPane label="歌单" name="name2">
+      </TabPane>
+      <TabPane label="主播电台" name="name4">
+      </TabPane>
+      <TabPane label="排行榜" name="name5">
+      </TabPane>
+    </Tabs>
   </div>
 </template>
 
