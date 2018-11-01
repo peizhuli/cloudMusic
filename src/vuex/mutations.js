@@ -7,6 +7,8 @@ const SET_ACCOUNT = 'SET_ACCOUNT';
 const TOGGLE_COLLECT = 'TOGGLE_COLLECT';
 const SET_FOCUS_LIST = 'SET_FOCUS_LIST';
 const SET_PLAY_LIST = 'SET_PLAY_LIST';
+const GET_USER_FANS = 'GET_USER_FANS';
+const GET_USER_FOLLOWS = 'GET_USER_FOLLOWS';
 
 export default {
 	[SET_PROFILE](state, profile) {
@@ -18,4 +20,10 @@ export default {
   [TOGGLE_COLLECT](state, collectList) {
 	  state.collectList = collectList;
   },
+  [GET_USER_FANS](state, userFans) {
+	  state.userFans = userFans;
+  },
+  [GET_USER_FOLLOWS](state, userFollows) {
+	  state.userFollows = userFollows;
+  }
 }

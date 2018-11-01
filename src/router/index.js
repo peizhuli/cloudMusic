@@ -8,6 +8,7 @@ import Login from '@/page/login/login';
 import Account from '@/page/account/account';
 import Person_Collection from '@/page/account/personal_collection';
 import Person_PlayRecord from '@/page/account/personal_playRecod';
+import Profile from '@/page/account/profile';
 
 import Singer from '@/page/singers/singers';
 import ArtistPlay from '@/page/singers/artistPlay';
@@ -38,7 +39,10 @@ const routes = new Router({
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: Login,
+      meta: {
+        noHeader: true
+      }
     },
     {
       path: '/account',
@@ -46,6 +50,14 @@ const routes = new Router({
       component: Account,
       meta: {
       requireAuth: true
+      }
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: Profile,
+      meta: {
+        noHeader: true
       }
     },
     {
@@ -67,7 +79,10 @@ const routes = new Router({
     {
       path: '/search',
       name: 'search',
-      component: Search
+      component: Search,
+      meta: {
+        noHeader: true
+      }
     },
     {
       path: '/singer',

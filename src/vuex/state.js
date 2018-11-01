@@ -6,7 +6,9 @@ const state = {
   profile: {},
   collectList: [],
   playList: [],
-  focusList: []
+  focusList: [],
+  userFans: [],
+  userFollows: []
 };
 
 export default state;

@@ -1,28 +1,34 @@
 <template>
-  <div>
-    <Form>
+  <div class="login-box">
+    <div class="logo-box">
+      <img class="logo" src="../../../static/logo.jpeg" />
+      <span class="logo-name">网易云音乐</span>
+    </div>
+    <Form class="login-form">
       <FormItem>
+        <label>用户名</label>
         <Row>
-          <Col span="6">
-              <label>用户名：</label>
-          </Col>
-          <Col span="18">
-            <Input v-model="userName" prefix="ios-contact" placeholder="userName" :rules="{required: true, message: 'userName can not be empty', trigger: 'blur'}" />
+          <Col span="24">
+            <Input v-model="userName" placeholder="userName" :rules="{required: true, message: 'userName can not be empty', trigger: 'blur'}" />
           </Col>
         </Row>
       </FormItem>
       <FormItem>
+        <label>密码</label>
         <Row>
-          <Col span="6">
-          <label>密码：</label>
-          </Col>
-          <Col span="18">
-          <Input v-model="password" prefix="ios-contact" placeholder="password" />
+          <Col span="24">
+          <Input type="password" v-model="password" placeholder="password" />
           </Col>
         </Row>
       </FormItem>
-      <Button type="primary" @click="login()">login</Button>
+      <div class="button-group">
+        <Button class="login-btn" @click="login()">登录</Button>
+        <Button class="" @click="login()">注册</Button>
+      </div>
     </Form>
+    <div class="other-login-type-box">
+      <p>第三方登录</p>
+    </div>
   </div>
 </template>
 
@@ -38,21 +44,92 @@
           }
       },
     methods: {
-        ...mapMutations(['SET_PROFILE']),
+        ...mapMutations(['SET_PROFILE', 'SET_ACCOUNT', 'GET_USER_FANS', 'GET_USER_FOLLOWS']),
           login: function() {
               var vm = this;
               service.loginWidthEmail(vm.userName, vm.password).then(function(res) {
-                  util.setCookie('tokenJsonStr', res.bindings["0"].tokenJsonStr, res.bindings["0"].expiresIn);
-                  vm.SET_PROFILE(res.profile);
-                  util.setSessionStore('userName', res.bindings["0"].tokenJsonStr);
-                  service.getUserState(res.profile.userId).then(function(res) {
-                      if(res.adValid) {
+                  console.log(res);
+                  if(res.code == 200) {
+                    util.setCookie('tokenJsonStr', res.bindings["0"].tokenJsonStr, res.bindings["0"].expiresIn);
+                    vm.SET_PROFILE(res.profile);
+                    util.setSessionStore('userName', res.bindings["0"].tokenJsonStr);
+                    service.getUserFans(res.profile.userId, 30, 0).then(function (res) {
+                      if(res.code == 200) {
+                          vm.GET_USER_FANS(res.followeds);
+                      }
+                    });
+                    service.getUserFocusList(res.profile.userId, 30, 0).then(function (res) {
+                      if(res.code == 200) {
+                          vm.GET_USER_FOLLOWS(res.follow);
+                      }
+                    });
+//                    service.getUserState(res.profile.userId).then(function(res) {
+//                      if(res.adValid) {
                         alert('登陆成功！');
                         vm.$router.push('/account');
-                      }
-                  });
+//                      }
+//                    });
+                  }
               })
           }
     }
   }
 </script>
+
+<style scoped>
+  .login-box {
+    width: 500px;
+    height: 700px;
+    margin: 0 auto;
+    padding: 5%;
+    background: #fff;
+  }
+  .logo-box {
+    width: 100%;
+    height: 15%;
+    text-align: left;
+  }
+  .logo {
+    display: inline-block;
+    max-height: 90%;
+  }
+  .logo-name {
+    color: #d6413d;
+    font-size: 1.4rem;
+  }
+  .login-form {
+    text-align: left;
+    padding: 3rem 0;
+  }
+  .login-form label {
+    color: #ccc;
+    font-size: 1rem;
+  }
+  .button-group {
+    padding: 3rem 0;
+    text-align: center;
+  }
+  .login-form button {
+    width: 34%;
+    padding: 0.6rem 1rem;
+    border: 1px solid #d6413d;
+    border-radius: 2rem;
+    font-size: 1rem;
+    color: #d6413d;
+  }
+  .login-form button.login-btn {
+    color: #fff;
+    background: #d6413d;
+  }
+</style>
+<style>
+  .login-form input.ivu-input,
+  .login-form input.ivu-input:focus,
+  .login-form input.ivu-input:active {
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+    box-shadow: none;
+  }
+</style>

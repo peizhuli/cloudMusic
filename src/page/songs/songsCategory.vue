@@ -79,7 +79,7 @@
   }
 </script>
 
-<style scope>
+<style scoped>
   .sub-category-item {
     display: inline-block;
     cursor: pointer;
