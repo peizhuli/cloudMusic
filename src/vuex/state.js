@@ -5,6 +5,7 @@ const state = {
   account: {},
   profile: {},
   collectList: [],
+  playRecords: [],
   playList: [],
   focusList: [],
   userFans: [],

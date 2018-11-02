@@ -35,7 +35,7 @@ const API = {
   //热搜
   getHotSearch: () => request.get('/search/hot', null, BASEAPI),
   //热搜建议
-  hotSearchSuggest: (keyword, type=1, limit=30, offset=0) => request.get('/search/suggest?keywords=' + keyword + '&type=' + type + '&limit=' + limit + '&offset=' + offset, null, BASEAPI),
+  hotSearchSuggest: (keyword) => request.get('/search/suggest?keywords=' + keyword, null, BASEAPI),
   //多重搜索
   mutiSearch: (keywords) => request.get('search/multimatch?keywords=' + keywords, null, BASEAPI),
 

@@ -10,12 +10,16 @@ const SET_PLAY_LIST = 'SET_PLAY_LIST';
 const GET_USER_FANS = 'GET_USER_FANS';
 const GET_USER_FOLLOWS = 'GET_USER_FOLLOWS';
 
+
 export default {
 	[SET_PROFILE](state, profile) {
 		state.profile = profile;
 	},
   [SET_ACCOUNT](state, account) {
 	  state.account = account;
+  },
+  [SET_PLAY_LIST](state, playRecords) {
+	  state.playRecords = playRecords;
   },
   [TOGGLE_COLLECT](state, collectList) {
 	  state.collectList = collectList;

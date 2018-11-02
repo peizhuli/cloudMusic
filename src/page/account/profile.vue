@@ -20,6 +20,12 @@
         </div>
       </div>
     </div>
+    <div class="play-list">
+      <Tabs value="weekPlay">
+        <TabPane title="最近一周播放记录" name="weekPlay"></TabPane>
+        <TabPane title="全部播放记录" name="allPlay"></TabPane>
+      </Tabs>
+    </div>
   </div>
 </template>
 
@@ -33,7 +39,6 @@
       },
     mounted() {
           this.profileBackUrl = "url(" + this.profile.backgroundUrl + ") center no-repeat";
-          console.log(this.account);
     },
     computed: {
       ...mapState(['profile','userFans', 'userFollows'])
