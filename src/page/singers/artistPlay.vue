@@ -10,6 +10,7 @@
     <div>
       <ul class="hot-songs-list">
         <li v-for="item in artistHotSongs" :key="item.id" @click="goPlayMusic(item.id)">
+          <Icon type="ios-heart-outline" @click.stop="likeMusic(true, item.id)" />
           <span>{{ item.name }}</span>
         </li>
       </ul>
@@ -41,6 +42,11 @@
           },
       goPlayMusic: function(id) {
               this.$router.push({path: '/playMusic', query: { id: id }});
+      },
+      likeMusic: function (IsLike, id) {
+        service.likeMusic(IsLike, id).then(function (res) {
+          console.log(res);
+        })
       }
     }
   }

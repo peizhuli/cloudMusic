@@ -11,7 +11,7 @@
         </Carousel>
         <Row class="special-list">
           <Col span="8">
-            <div class="circle-border">
+            <div class="circle-border" @click="changeRoute('/privateFM')">
               <Icon type="md-radio" color="#d6413d" />
             </div>
             <p>私人FM</p>
@@ -32,7 +32,7 @@
 
         <div class="recommend-item">
           <div class="recommend-title"><Icon type="md-calendar" size="30" color="#d6413d" />推荐歌单<span class="check-more">更多&gt;</span></div>
-          <Row class="recommend-play-list" :gutter="24" justify="center" align="left">
+          <Row class="recommend-play-list" :gutter="24" justify="center">
             <Col span="8" class="recommend-play-item" v-for="item in recommendMusic" :key="item.id" @click="goPlayMusic(item.id)">
               <div class="play-pic-box">
                 <img :src="item.picUrl" />
@@ -86,20 +86,21 @@
     <div class="bottom-music-box">
       <current-music></current-music>
     </div>
+    <go-top></go-top>
   </div>
 </template>
 
 <script>
   import service from '../../service/service';
   import currentMusic from '../../components/currentMusic';
+  import goTop from '../../components/goTop';
   export default {
       mounted() {
           this.getBanners();
           this.getDailyRecomments();
           this.getRecommendMVs();
           this.getPrivateContents();
-          this.g
-        etRecommendDJs();
+          this.getRecommendDJs();
       },
       data() {
           return {
@@ -111,7 +112,8 @@
           }
       },
     components: {
-      currentMusic
+      currentMusic,
+      goTop
     },
     methods: {
           getBanners: function() {
@@ -168,6 +170,10 @@
                     vm.recommendDJs = res.result;
                 }
               });
+      },
+      changeRoute: function (path) {
+              console.log(path);
+        this.$router.push(path);
       },
       goPlayMusic: function(id) {
               this.$router.push({path: '/playMusic', query: { id: id }});

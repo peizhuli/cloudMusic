@@ -3,28 +3,33 @@
     <!--<img src="./assets/logo.png">-->
     <header-bar v-if="!this.$route.meta.noHeader"></header-bar>
     <router-view/>
+    <left-side-menu></left-side-menu>
   </div>
 </template>
 
 <script>
   import headerBar from './components/header';
+  import leftSideMenu from './components/asideMenu'
   export default {
   name: 'App',
     components: {
-      headerBar
+      headerBar,
+      leftSideMenu
     }
 }
 </script>
 
 <style>
 html,body {
-  width: 100%;
+  /*width: 750px;*/
   height: 100%;
+  margin: 0 auto;
   background: #F3F4F6;
 }
 #app {
   width: 100%;
   height: 100%;
+  position: relative;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

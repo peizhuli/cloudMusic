@@ -9,7 +9,7 @@
     </div>
     <div class="artist-type-detail-box">
       <ul class="">
-        <li v-for="item in artists" :key="item.id">
+        <li v-for="item in artists" :key="item.id" @click="getArtistPlayList(item.id)">
           <img :src="item.img1v1Url" />
           <p>{{ item.name }}</p>
         </li>
@@ -96,6 +96,9 @@
                       vm.artists = res.artists;
                   }
               })
+          },
+          getArtistPlayList: function (id) {
+              this.$router.push({path: '/artistPlay', query: {id: id}})
           }
     }
   }

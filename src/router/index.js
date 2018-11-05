@@ -15,7 +15,8 @@ import ArtistPlay from '@/page/singers/artistPlay';
 import artistType from '@/page/singers/artistType'
 import PlayMusic from '@/page/singers/playMusic';
 import PlayMV from '@/page/MVs/playMV';
-import TopMV from '@/page/MVs/rankMV'
+import TopMV from '@/page/MVs/rankMV';
+import TopList from '@/page/songs/topList';
 
 import Album from '@/page/album/album';
 import AlbumDetail from '@/page/album/albumDetail';
@@ -23,6 +24,7 @@ import songsCategory from '@/page/songs/songsCategory';
 import songsCategoryDetail from '@/page/songs/songsCategoryDetail';
 
 import DJs from '@/page/DJs/DJs';
+import privateFM from '@/page/DJs/privateFM'
 
 Vue.use(Router);
 
@@ -115,6 +117,11 @@ const routes = new Router({
       component: PlayMV
     },
     {
+      path: '/topList',
+      name: 'topList',
+      component: TopList
+    },
+    {
       path: '/album',
       component: Album,
       children: [
@@ -139,6 +146,11 @@ const routes = new Router({
       path: '/DJs',
       name: 'DJs',
       component: DJs
+    },
+    {
+      path: '/privateFM',
+      name: 'privateFM',
+      component: privateFM
     }
   ]
 });

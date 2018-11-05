@@ -63,6 +63,8 @@ const API = {
   checkCanPlay: (id) => request.get('/check/music?id=' + id, null, BASEAPI),
   //收藏/取消收藏歌单（type：1:收藏,2:取消收藏）
   toggleCollectMusic: (type, id) => request.get('/playlist/subscribe?t=' + type + '&id=' + id, null, BASEAPI),
+  //喜欢/取消喜欢音乐
+  likeMusic: (IsLike, id) => request.get('/like?id=' + id, null, BASEAPI),
 
   //热门歌手
   getHotSinger: (limit=30, offset=0) => request.get('/top/artists?offset=' + offset + '&limit=' + limit, null, BASEAPI),
@@ -86,6 +88,8 @@ const API = {
   getDailyRecomment: () => request.get('/recommend/resource?time=' + new Date(), null, BASEAPI),
   //最新MV
   getNewMV: (limit=30) => request.get('/mv/first?limit=' + limit, null, BASEAPI),
+  //私人FM
+  getPrivateFM: () => request.get('/personal_fm', null, BASEAPI),
 
   //推荐MV
   getRecommendMV: () => request.get('/personalized/mv', null, BASEAPI),

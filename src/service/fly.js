@@ -11,6 +11,7 @@ request.interceptors.response.use( (response, promise) => {
 
   return promise.resolve(response.data);
 }, (err, promise) => {
+  console.log(err);
   alert('操作失败！');
   return promise.reject();
 });
