@@ -10,8 +10,8 @@
           </CarouselItem>
         </Carousel>
         <Row class="special-list">
-          <Col span="8">
-            <div class="circle-border" @click="changeRoute('/privateFM')">
+          <Col span="8" @click="changeRoute('/privateFM')">
+            <div class="circle-border">
               <Icon type="md-radio" color="#d6413d" />
             </div>
             <p>私人FM</p>

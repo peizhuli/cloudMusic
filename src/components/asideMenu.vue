@@ -20,7 +20,7 @@
           <Cell title="商城">
             <Icon type="ios-cart-outline" slot="icon" />
           </Cell>
-          <Cell title="在线听歌免流量" to="/components/button">
+          <Cell title="在线听歌免流量">
             <Icon type="ios-briefcase-outline" slot="icon" />
           </Cell>
         </CellGroup>
@@ -65,7 +65,7 @@
     width: 100%;
     height: 100%;
     position: fixed;
-    left: 0;
+    left: -100%;
     top: 0;
     transition: all .7s;
     background: rgba(125,125,125,0.6);

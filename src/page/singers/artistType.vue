@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-content">
     <div class="artist-type-box">
       <ul class="artist-type-list">
         <li v-for="item in artistType" :key="item.value" @click="getArtistType(item.value, 30, 0,'')">

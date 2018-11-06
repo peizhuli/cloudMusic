@@ -1,9 +1,13 @@
 <template>
-  <div>
-    <div v-for="item in singers" :key="item.id" @click="getArtistPlay(item.id)">
-      <img :src="item.picUrl" />
-      <p>{{ item.name }}</p>
-    </div>
+  <div class="app-content">
+    <Row :gutter="16">
+      <Col span="8" v-for="item in singers" :key="item.id">
+        <div class="hot-singer-item" @click="getArtistPlay(item.id)">
+          <img :src="item.picUrl" />
+          <p>{{ item.name }}</p>
+        </div>
+      </Col>
+    </Row>
   </div>
 </template>
 
@@ -32,3 +36,10 @@
     }
   }
 </script>
+
+<style scoped>
+  .hot-singer-item img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+</style>

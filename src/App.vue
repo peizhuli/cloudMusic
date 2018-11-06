@@ -34,6 +34,9 @@ html,body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.app-content {
+  padding-top: 4rem;
+}
 .ivu-tabs-bar {
   margin: 0 auto;
   display: inline-block;

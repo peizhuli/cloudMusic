@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="app-content">
         <!--<input type="hidden" :id="profile.userId" />-->
         <!--<img :src="profile.avatarUrl" />-->
         <!--<p>昵称：{{ profile.nickname }}</p>-->
