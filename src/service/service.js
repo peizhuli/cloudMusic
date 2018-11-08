@@ -40,7 +40,7 @@ const API = {
   mutiSearch: (keywords) => request.get('search/multimatch?keywords=' + keywords, null, BASEAPI),
 
   //歌手分类（华语、欧美...）
-  getArtisType: (cat, limit=30, offset=0, initial) => request.get('/artist/list?cat=' + cat + '&limit=' + limit + '&offset=' + offset + '&initial=' + initial, null, BASEAPI),
+  getArtisType: (cat, limit=30, offset=0) => request.get('/artist/list?cat=' + cat + '&limit=' + limit + '&offset=' + offset, null, BASEAPI),
   //歌单分类
   getPlayList: () => request.get('/playlist/catlist', null, BASEAPI),
   //热门歌单分类
@@ -104,7 +104,7 @@ const API = {
   //独家放送
   getPrivateContent: () => request.get('/personalized/privatecontent', null, BASEAPI),
   //mv排行榜
-  getTopMV: (limit=30, offset=0) => request.get('top/mv?limit=' + limit + '&offset=' + offset, null, BASEAPI),
+  getTopMV: (limit=10, offset=0) => request.get('top/mv?limit=' + limit + '&offset=' + offset, null, BASEAPI),
   //获取MV数据
   getMVDetail: (mvId) => request.get('/mv/detail?mvid=' + mvId, null, BASEAPI),
   //mv地址
@@ -115,6 +115,8 @@ const API = {
   getVideoUrl: (id) => request.get('/video/detail?id=' + id, null, BASEAPI),
   //排行榜
   getTop: (idx) => request.get('/top/list?idx=' + idx, null, BASEAPI),
+  //排行榜 单内容简介
+  getMusicTopBrief: () => request.get('/toplist/detail', null, BASEAPI),
   //歌手帮
   getTopSinger: () => request.get('/toplist/artist', null, BASEAPI),
 

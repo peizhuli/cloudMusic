@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-content">
     <Tabs value="name1">
       <TabPane label="个性推荐" name="name1">
         <Carousel :autoplay="true" :loop="true" :autoplay-speed="2000">
@@ -45,7 +45,7 @@
         </div>
 
         <div class="recommend-item">
-          <div class="recommend-title"><Icon type="md-calendar" size="30" color="#d6413d" />推荐MV<span class="check-more">更多&gt;</span></div>
+          <div class="recommend-title"><Icon type="md-calendar" size="30" color="#d6413d" />推荐MV<span class="check-more" @click="$router.push('/MV')">更多&gt;</span></div>
           <ul class="recommend-play-list">
             <li class="recommend-play-item" v-for="item in recommendMVs" :key="item.id" @click="goPlayMV(item.id)">
               <img :src="item.picUrl" />
@@ -69,23 +69,72 @@
         <div class="recommend-item">
           <div class="recommend-title"><Icon type="md-calendar" size="30" color="#d6413d" />推荐电台<span class="check-more">更多&gt;</span></div>
           <ul class="recommend-play-list">
-            <li class="recommend-play-item" v-for="item in getRecommendDJs" :key="item.id" @click="">
+            <li class="recommend-play-item" v-for="item in recommendDJs" :key="item.id" @click="">
               <img :src="item.picUrl" />
               <p>{{ item.name }}</p>
+              <p>{{ item.copywriter }}</p>
             </li>
           </ul>
         </div>
       </TabPane>
       <TabPane label="歌单" name="name2">
+        <div class="songs-type-box">
+          <span>全部歌单</span>
+          <div class="hot-songs-type">
+            <span v-for="item in hotPlayType" :key="item.id">
+              {{ item.name }}
+            </span>
+          </div>
+        </div>
+        <div class="well-chosen-play-box">
+          <Row :gutter="16">
+            <Col span="8" v-for="item in wellChosenPlay" :key="item.id">
+              <div class="play-item">
+                <img :src="item.coverImgUrl" />
+                <div class="music-play-count"><Icon type="ios-headset-outline" />{{ item.playCount > 10000 ? (item.playCount / 10000).toFixed(0) + '万' : (item.playCount.toFixed(0) + '人') }}</div>
+                <div class="creator"><Icon type="ios-headset-outline" />{{ item.creator.nickname }}</div>
+              </div>
+              <div>{{ item.name }}</div>
+            </Col>
+          </Row>
+        </div>
       </TabPane>
       <TabPane label="主播电台" name="name4">
+
       </TabPane>
       <TabPane label="排行榜" name="name5">
+        <div class="top-list-box">
+          <div class="top-music-item" v-for="item in topMusicList" :key="item.id">
+            <Row type="flex" justify="start" align="middle">
+              <Col span="8">
+              <img :src="item.coverImgUrl" />
+              <span class="update-frequency">{{ item.updateFrequency }}</span>
+              </Col>
+              <Col span="16" class="music-top-content">
+                <div class="music-top-list">
+                  <div class="music-top-name" v-for="(track, index) in item.tracks" :key="index">
+                    {{ index + 1 }}. {{ track.first }} - {{ track.second }}
+                  </div>
+                </div>
+              </Col>
+            </Row>
+          </div>
+          <!--<div class="top-list-describe">-->
+            <!--<p>{{ topMusicList.name }}</p>-->
+            <!--<p>{{ topMusicList.description }}</p>-->
+            <!--<p>播放次数：{{ topMusicList.playCount }}  分享次数：{{ topMusicList.shareCount }}</p>-->
+          <!--</div>-->
+          <!--<ul class="top-list">-->
+            <!--<li v-for="item in topMusicList.tracks" :key="item.id" @click="playMusic(item.id)">-->
+              <!--{{ item.name }}-->
+            <!--</li>-->
+          <!--</ul>-->
+        </div>
       </TabPane>
     </Tabs>
-    <div class="bottom-music-box">
-      <current-music></current-music>
-    </div>
+    <!--<div class="bottom-music-box">-->
+      <!--<current-music></current-music>-->
+    <!--</div>-->
     <go-top></go-top>
   </div>
 </template>
@@ -101,6 +150,11 @@
           this.getRecommendMVs();
           this.getPrivateContents();
           this.getRecommendDJs();
+          this.getTopMusicList();
+
+          this.getHotPlayType();
+          this.getPlayType();
+          this.getWellChosenPlay();
       },
       data() {
           return {
@@ -108,7 +162,11 @@
             recommendMusic: [],
             recommendMVs: [],
             recommendDJs: [],
-            privateContents: []
+            privateContents: [],
+            topMusicList: [],
+            hotPlayType: [],
+            playType: [],
+            wellChosenPlay: []
           }
       },
     components: {
@@ -116,10 +174,9 @@
       goTop
     },
     methods: {
-          getBanners: function() {
+      getBanners: function() {
               var vm = this;
               service.getBanner().then(function(res) {
-                  console.log(res);
                   if(res.code == 200) {
                     vm.banners = res.banners;
                   }
@@ -137,7 +194,6 @@
       getDailyRecomments: function() {
         var vm = this;
         service.getRecommendMusic().then(function(res) {
-           console.log(res);
            if(res.code == 200) {
                vm.recommendMusic = res.result;
              vm.recommendMusic.length = 9;
@@ -147,7 +203,6 @@
       getRecommendMVs: function() {
         let vm = this;
         service.getRecommendMV().then(function (res) {
-          console.log(res);
           if(res.code == 200) {
               vm.recommendMVs = res.result;
           }
@@ -156,7 +211,6 @@
       getPrivateContents: function () {
         let vm = this;
         service.getPrivateContent().then(function(res) {
-            console.log(res);
             if(res.code == 200) {
                 vm.privateContents = res.result;
             }
@@ -165,21 +219,45 @@
       getRecommendDJs: function() {
               let vm = this;
               service.getRecommendDJ().then(function (res) {
-                console.log(res);
                 if(res.code == 200) {
                     vm.recommendDJs = res.result;
                 }
               });
       },
+
+      getHotPlayType: function () {
+        let vm = this;
+        service.getHotPlayList().then(function (res) {
+          vm.hotPlayType = res.tags;
+        })
+      },
+      getPlayType: function () {
+        let vm = this;
+        service.getPlayList().then(function (res) {
+        })
+      },
+      getWellChosenPlay: function () {
+        let vm = this;
+        service.getWellChosenList().then(function (res) {;
+          vm.wellChosenPlay = res.playlists;
+        })
+      },
+
+      getTopMusicList: function () {
+        let vm = this;
+        service.getMusicTopBrief().then(function (res) {
+          vm.topMusicList = res.list;
+        })
+      },
+
       changeRoute: function (path) {
-              console.log(path);
         this.$router.push(path);
       },
       goPlayMusic: function(id) {
-              this.$router.push({path: '/playMusic', query: { id: id }});
+        this.$router.push({path: '/playMusic', query: { id: id }});
       },
       goPlayMV: function(id) {
-              this.$router.push({path: '/playMV', query: { id: id }});
+        this.$router.push({path: '/playMV', query: { id: id }});
       }
     }
   }
@@ -190,7 +268,8 @@
     clear: both;
     text-align: left;
   }
-  .recommend-play-item img {
+  .recommend-play-item img,
+  .play-item img {
     width: 100%;
   }
   .special-list {
@@ -238,7 +317,15 @@
   .music-play-count {
     position: absolute;
     top: 0;
-    right: 0;
+    right: 5%;
+    padding: 2px 5px;
+    color: #fff;
+    background: linear-gradient(left,rgba(9,9,9,0.2),rgba(3,3,3,0.8));
+  }
+  .creator {
+    position: absolute;
+    bottom: 10%;
+    left: 5%;
     padding: 2px 5px;
     color: #fff;
     background: linear-gradient(left,rgba(9,9,9,0.2),rgba(3,3,3,0.8));
@@ -251,4 +338,30 @@
     position: fixed;
     bottom: 0;
   }
+  .top-music-item img {
+    max-width: 100%;
+  }
+  .update-frequency {
+    position: absolute;
+    bottom: 5%;
+    left: 5%;
+    font-size: 3rem;
+    color: #fff;
+  }
+  .music-top-content {
+    padding: 5%;
+    font-size: 4rem;
+    line-height: 3;
+  }
+  .music-top-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /*.music-top-list {*/
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*align-items: flex-start;*/
+    /*flex-direction: column;*/
+  /*}*/
 </style>

@@ -9,7 +9,7 @@ const SET_FOCUS_LIST = 'SET_FOCUS_LIST';
 const SET_PLAY_LIST = 'SET_PLAY_LIST';
 const GET_USER_FANS = 'GET_USER_FANS';
 const GET_USER_FOLLOWS = 'GET_USER_FOLLOWS';
-
+const GET_USER_INFO_COUNT = 'GET_USER_INFO_COUNT';
 
 export default {
 	[SET_PROFILE](state, profile) {
@@ -29,5 +29,10 @@ export default {
   },
   [GET_USER_FOLLOWS](state, userFollows) {
 	  state.userFollows = userFollows;
+  },
+  [GET_USER_INFO_COUNT](state, profile) {
+	  state.followedsCount = profile.followedsCount;
+	  state.followsCount = profile.followsCount;
+	  state.eventCount = profile.eventCount;
   }
 }

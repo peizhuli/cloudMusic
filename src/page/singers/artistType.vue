@@ -1,11 +1,13 @@
 <template>
   <div class="app-content">
     <div class="artist-type-box">
-      <ul class="artist-type-list">
-        <li v-for="item in artistType" :key="item.value" @click="getArtistType(item.value, 30, 0,'')">
-          <span>{{ item.name }}</span>
-        </li>
-      </ul>
+      <!--<ul class="artist-type-list">-->
+        <!--<li v-for="item in artistType" :key="item.value">-->
+      <cellGroup>
+        <Cell v-for="item in artistType" :key="item.value" :title="item.name" :to="{path: '/artistSubType', query: {type: item.value}}" />
+      </cellGroup>
+        <!--</li>-->
+      <!--</ul>-->
     </div>
     <div class="artist-type-detail-box">
       <ul class="">
@@ -88,17 +90,14 @@
           }
       },
     methods: {
-          getArtistType: function(cat, limit, offset, initial) {
+          getArtistType: function(cat, limit, offset) {
               let vm = this;
-              service.getArtisType(cat, limit, offset, initial).then(function (res) {
+              service.getArtisType(cat, limit, offset).then(function (res) {
                   console.log(res);
                   if(res.code == 200) {
                       vm.artists = res.artists;
                   }
               })
-          },
-          getArtistPlayList: function (id) {
-              this.$router.push({path: '/artistPlay', query: {id: id}})
           }
     }
   }

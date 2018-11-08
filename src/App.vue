@@ -1,19 +1,25 @@
 <template>
   <div id="app">
     <!--<img src="./assets/logo.png">-->
-    <header-bar v-if="!this.$route.meta.noHeader"></header-bar>
+    <header-bar v-if="!this.$route.meta.noHeader">
+      <slot name="home"></slot>
+      <slot name="subTitle" :title="this.$route.meta.title"></slot>
+    </header-bar>
     <router-view/>
-    <left-side-menu></left-side-menu>
+    <tab-bar v-if="this.$route.name != 'login'"></tab-bar>
+    <!--<left-side-menu></left-side-menu>-->
   </div>
 </template>
 
 <script>
   import headerBar from './components/header';
+  import tabBar from './components/tabBar';
   import leftSideMenu from './components/asideMenu'
   export default {
   name: 'App',
     components: {
       headerBar,
+      tabBar,
       leftSideMenu
     }
 }
@@ -57,5 +63,42 @@ html,body {
 }
 ul,li {
   list-style: none;
+}
+.header-title {
+  font-size: 2rem;
+  text-align: center;
+}
+.header-title > span {
+  float: left;
+  padding-left: 1rem;
+  line-height: 4rem;
+  cursor: pointer;
+}
+.search-box {
+  width: 90%;
+  height: 70%;
+  margin: 0 auto;
+  position: relative;
+  top: 10px;
+  border-radius: 40px;
+  background: #fff;
+}
+.search-box input {
+  width: 100%;
+  height: 100%;
+  padding: 0 8% 0 20px;
+  top: -9px;
+  position: relative;
+  border: none;
+  background: transparent;
+  outline: none;
+}
+.search-box input::placeholder {
+  color: #999;
+}
+.search-box > i {
+  position: absolute;
+  right: 3%;
+  top: 10%;
 }
 </style>

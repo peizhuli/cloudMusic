@@ -9,13 +9,17 @@ import Account from '@/page/account/account';
 import Person_Collection from '@/page/account/personal_collection';
 import Person_PlayRecord from '@/page/account/personal_playRecod';
 import Profile from '@/page/account/profile';
+import profileMusic from '@/page/account/profileMusic';
 
 import Singer from '@/page/singers/singers';
 import ArtistPlay from '@/page/singers/artistPlay';
 import artistType from '@/page/singers/artistType'
+import artistSubType from '@/page/singers/artistSubType'
 import PlayMusic from '@/page/singers/playMusic';
 import PlayMV from '@/page/MVs/playMV';
 import TopMV from '@/page/MVs/rankMV';
+import MV from '@/page/MVs/MV';
+import MVDetail from '@/page/MVs/MVDetail';
 import TopList from '@/page/songs/topList';
 
 import Album from '@/page/album/album';
@@ -51,7 +55,8 @@ const routes = new Router({
       name: 'account',
       component: Account,
       meta: {
-      requireAuth: true
+        requireAuth: true,
+        title: '个人中心'
       }
     },
     {
@@ -63,11 +68,20 @@ const routes = new Router({
       }
     },
     {
+      path: '/profileMusic',
+      name: 'profileMusic',
+      component: profileMusic,
+      meta: {
+        title: '我的音乐'
+      }
+    },
+    {
       path: '/collection',
       name: 'collection',
       component: Person_Collection,
       meta: {
-        requireAuth: true
+        requireAuth: true,
+        title: '收藏列表'
       }
     },
     {
@@ -75,7 +89,8 @@ const routes = new Router({
       name: 'playRecord',
       component: Person_PlayRecord,
       meta: {
-        requireAuth: true
+        requireAuth: true,
+        title: '播放记录'
       }
     },
     {
@@ -83,7 +98,8 @@ const routes = new Router({
       name: 'search',
       component: Search,
       meta: {
-        noHeader: true
+        noHeader: true,
+        title: '搜索'
       }
     },
     {
@@ -94,12 +110,26 @@ const routes = new Router({
     {
       path: '/artistPlay',
       name: 'ArtistPlay',
-      component: ArtistPlay
+      component: ArtistPlay,
+      meta: {
+        title: '歌手信息'
+      }
     },
     {
       path: '/artistType',
       name: 'artistType',
-      component: artistType
+      component: artistType,
+      meta: {
+        title: '歌手分类'
+      }
+    },
+    {
+      path: '/artistSubType',
+      name: 'artistSubType',
+      component: artistSubType,
+      meta: {
+        title: '歌手分类'
+      }
     },
     {
       path: '/playMusic',
@@ -109,7 +139,26 @@ const routes = new Router({
     {
       path: '/topMV',
       name: 'topMV',
-      component: TopMV
+      component: TopMV,
+      meta: {
+        title: 'MV排行榜'
+      }
+    },
+    {
+      path: '/MV',
+      name: 'MV',
+      component: MV,
+      meta: {
+        title: 'MV'
+      }
+    },
+    {
+      path: '/MVDetail',
+      name: 'MVDetail',
+      component: MVDetail,
+      meta: {
+        title: 'MV详情'
+      }
     },
     {
       path: '/playMV',
@@ -119,7 +168,11 @@ const routes = new Router({
     {
       path: '/topList',
       name: 'topList',
-      component: TopList
+      component: TopList,
+      meta: {
+        requireAuth: true,
+        title: '排行榜'
+      }
     },
     {
       path: '/album',
@@ -145,19 +198,27 @@ const routes = new Router({
     {
       path: '/DJs',
       name: 'DJs',
-      component: DJs
+      component: DJs,
+      meta: {
+        requireAuth: true,
+        title: '电台'
+      }
     },
     {
       path: '/privateFM',
       name: 'privateFM',
-      component: privateFM
+      component: privateFM,
+      meta: {
+        requireAuth: true,
+        title: '私人FM'
+      }
     }
   ]
 });
 
 routes.beforeEach((to, from, next) => {
   if(to.meta.requireAuth) {
-    if(sessionStorage.getItem("userName")) {
+    if(localStorage.getItem("userName")) {
       next();
     } else {
       next({
