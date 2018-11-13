@@ -3,8 +3,8 @@
         <div class="profile-info">
           <div>
             <input type="hidden" :id="profile.userId" />
-            <img class="profile-avatar" :src="profile.avatarUrl" />
-            <p>{{ profile.nickname }}</p>
+            <img class="profile-avatar" :src="profile.userId ? profile.avatarUrl : defaultAvatar" />
+            <p>{{ profile.userId ? profile.nickname : '未登录' }}</p>
           </div>
           <Row class="account-count-box">
             <Col span="6">
@@ -54,13 +54,20 @@
               <Icon type="ios-cart-outline" slot="icon" />
               <Switch v-model="openNightModel" slot="extra" />
             </Cell>
+            <Cell title="退出登录">
+              <div @click="logout()">
+                <Icon type="ios-cart-outline" />
+              </div>
+            </Cell>
           </CellGroup>
         </div>
     </div>
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {mapState, mapMutations } from 'vuex';
+import util from '../../utils/util';
+import service from '../../service/service';
 export default {
   mounted() {
 //    this.getUserInfo();
@@ -69,13 +76,15 @@ export default {
     data() {
         return {
           profileBackUrl: "",
-          openNightModel: false
+          openNightModel: false,
+          defaultAvatar: require('../../../static/img/avater.gif')
         }
     },
 	computed: {
-	 ...mapState(['profile', 'followedsCount', 'followsCount', 'eventCount'])
+	  ...mapState(['profile', 'followedsCount', 'followsCount', 'eventCount'])
 	},
 	methods: {
+    ...mapMutations(['SET_PROFILE']),
     getUserInfo: function() {
       console.log(this.profile);
     },
@@ -84,6 +93,16 @@ export default {
     },
     goPlayRecord: function(id) {
       this.$router.push({path: '/playRecord', query: { id: id }})
+    },
+    logout: function () {
+        let vm = this;
+      service.logout().then(function (res) {
+        if(res.code == 200) {
+            alert('退出登录成功！');
+            util.removeLocalStore('userName');
+            vm.SET_PROFILE({});
+        }
+      });
     }
 	}
 }

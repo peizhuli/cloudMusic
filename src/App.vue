@@ -41,8 +41,14 @@ html,body {
   -moz-osx-font-smoothing: grayscale;
 }
 .app-content {
+  width: 100%;
+  height: 100%;
   padding-top: 4rem;
 }
+img {
+  max-width: 100%;
+}
+
 .ivu-tabs-bar {
   margin: 0 auto;
   display: inline-block;

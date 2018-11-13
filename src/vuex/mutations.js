@@ -10,6 +10,7 @@ const SET_PLAY_LIST = 'SET_PLAY_LIST';
 const GET_USER_FANS = 'GET_USER_FANS';
 const GET_USER_FOLLOWS = 'GET_USER_FOLLOWS';
 const GET_USER_INFO_COUNT = 'GET_USER_INFO_COUNT';
+const LOG_OUT = 'LOG_OUT';
 
 export default {
 	[SET_PROFILE](state, profile) {
@@ -31,8 +32,13 @@ export default {
 	  state.userFollows = userFollows;
   },
   [GET_USER_INFO_COUNT](state, profile) {
+	  console.log(profile);
 	  state.followedsCount = profile.followedsCount;
 	  state.followsCount = profile.followsCount;
 	  state.eventCount = profile.eventCount;
+  },
+  [LOG_OUT](state) {
+	  state.profile = {};
+	  state.state = {};
   }
 }

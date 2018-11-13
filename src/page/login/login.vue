@@ -51,7 +51,7 @@
                   if(res.code == 200) {
                     util.setCookie('tokenJsonStr', res.bindings["0"].tokenJsonStr, res.bindings["0"].expiresIn);
                     vm.SET_PROFILE(res.profile);
-                    util.setLocalStore('userName', res.bindings["0"].tokenJsonStr);
+                    util.setLocalStore('profile', res.profile);
 //                    service.getUserFans(res.profile.userId, 30, 0).then(function (res) {
 //                      if(res.code == 200) {
 //                          vm.GET_USER_FANS(res.followeds);

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '../vuex/store';
 
 import Home from '@/page/home/home';
 import Search from '@/page/search/search';
@@ -7,7 +8,7 @@ import Search from '@/page/search/search';
 import Login from '@/page/login/login';
 import Account from '@/page/account/account';
 import Person_Collection from '@/page/account/personal_collection';
-import Person_PlayRecord from '@/page/account/personal_playRecod';
+import Person_PlayRecord from '@/page/account/personal_playRecord';
 import Profile from '@/page/account/profile';
 import profileMusic from '@/page/account/profileMusic';
 
@@ -217,8 +218,9 @@ const routes = new Router({
 });
 
 routes.beforeEach((to, from, next) => {
+  const profile = store.state.profile ? store.state.profile : localStorage.getItem('profile');
   if(to.meta.requireAuth) {
-    if(localStorage.getItem("userName")) {
+    if(profile.userId) {
       next();
     } else {
       next({

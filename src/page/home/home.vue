@@ -10,8 +10,8 @@
           </CarouselItem>
         </Carousel>
         <Row class="special-list">
-          <Col span="8" @click="changeRoute('/privateFM')">
-            <div class="circle-border">
+          <Col span="8">
+            <div class="circle-border" @click="$router.push('/privateFM')">
               <Icon type="md-radio" color="#d6413d" />
             </div>
             <p>私人FM</p>
@@ -89,7 +89,7 @@
         <div class="well-chosen-play-box">
           <Row :gutter="16">
             <Col span="8" v-for="item in wellChosenPlay" :key="item.id">
-              <div class="play-item">
+              <div class="play-item" @click="getPlayListDetail(item.id)">
                 <img :src="item.coverImgUrl" />
                 <div class="music-play-count"><Icon type="ios-headset-outline" />{{ item.playCount > 10000 ? (item.playCount / 10000).toFixed(0) + '万' : (item.playCount.toFixed(0) + '人') }}</div>
                 <div class="creator"><Icon type="ios-headset-outline" />{{ item.creator.nickname }}</div>
@@ -250,15 +250,18 @@
         })
       },
 
-      changeRoute: function (path) {
-        this.$router.push(path);
+      getPlayListDetail: function (id) {
+        this.$router.push({path: '/songsCategoryDetail', query: { id: id }});
       },
-      goPlayMusic: function(id) {
-        this.$router.push({path: '/playMusic', query: { id: id }});
-      },
-      goPlayMV: function(id) {
-        this.$router.push({path: '/playMV', query: { id: id }});
-      }
+//      changeRoute: function (path) {
+//        this.$router.push(path);
+//      },
+//      goPlayMusic: function(id) {
+//        this.$router.push({path: '/playMusic', query: { id: id }});
+//      },
+//      goPlayMV: function(id) {
+//        this.$router.push({path: '/playMV', query: { id: id }});
+//      }
     }
   }
 </script>

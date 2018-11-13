@@ -8,23 +8,23 @@
               本地音乐<span class="manage-count"> (5)</span>
           </span>
         </li>
-        <li class="account-item">
+        <li class="account-item" @click="$router.push('/playRecord')">
           <Icon type="ios-stats-outline" size="50" color="#d6413d" />
           <span>
-              最近播放<span class="manage-count"> (5)</span>
+              最近播放<span class="manage-count"> ({{ recentPlayListCount }})</span>
               <Icon type="md-calendar" size="30" color="#d6413d"></Icon>
           </span>
         </li>
         <li class="account-item">
           <Icon type="ios-radio" size="50" color="#d6413d" />
           <span>
-              我的电台<span class="manage-count"> (5)</span>
+              我的电台<span class="manage-count"> ({{ djCount }})</span>
           </span>
         </li>
-        <li class="account-item">
+        <li class="account-item" @click="$router.push({path: '/collection', query: { id: profile.userId }})">
           <Icon type="ios-person-add-outline" size="50" color="#d6413d" />
           <span>
-              我的收藏<span class="manage-count"> (5) </span>
+              我的收藏<span class="manage-count"> ({{ collectionCount }}) </span>
           </span>
         </li>
       </ul>
@@ -32,7 +32,7 @@
     <div class="created-play-box">
       <div class="created-play-header">
         <Icon type="ios-arrow-down" size="30" color="#999" />
-        <span>创建的歌单(4)</span>
+        <span>创建的歌单({{ createPlayListCount }})</span>
         <Icon type="ios-settings-outline" size="30" color="#999" />
       </div>
     </div>
@@ -41,10 +41,38 @@
 
 <script>
   import { mapState } from 'vuex';
+  import service from '../../service/service';
   export default {
+      mounted() {
+          this.getUserSubcount();
+          this.getUserPlayLists();
+      },
+      data() {
+          return {
+            recentPlayListCount: 0,
+            collectionCount: 0,
+            djCount: 0,
+            createPlayListCount: 0,
+          }
+      },
       computed: {
-        ...mapState(['followedsCount', 'followsCount', 'eventCount'])
+        ...mapState(['profile'])
+      },
+    methods: {
+      getUserPlayLists: function () {
+        let vm = this;
+        service.getUserPlayLists(vm.profile.userId).then(function (res) {
+          console.log('最近播放',res);
+          vm.recentPlayListCount = res.weekData.length;
+        })
+      },
+      getUserSubcount: function () {
+        let vm = this;
+        service.getUserSubcount().then(function (res) {
+          console.log('用户信息',res);
+        })
       }
+    }
   }
 </script>
 

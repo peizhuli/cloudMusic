@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-content">
     <div class="category-detail-box">
       <ul class="category-detail-list">
         <li v-for="item in categoryDetail" :key="item.id" @click="goPlayMusic(item.id)">
