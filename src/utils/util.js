@@ -35,5 +35,11 @@ export default {
     var exp = new Date();
     exp.setTime(exp.getTime() + strsec*1);
     document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+  },
+  formatterDuration: (duration) => {
+    let mininus = parseInt(duration / 60) < 10 ? '0' +  parseInt(duration / 60) : parseInt(duration / 60);
+    let sec = parseInt(duration % 60) < 10 ? '0' + parseInt(duration % 60) : parseInt(duration % 60);
+    let time = mininus + ':' + sec;
+    return time;
   }
 }

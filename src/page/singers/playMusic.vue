@@ -34,17 +34,18 @@
         <Icon type="md-share" size="30" />
       </Col>
     </Row>
-    <audio :src="playUrl" controls></audio>
+    <audio id="audio" :src="playUrl" controls></audio>
   </div>
 </template>
 
 <script>
+  import util from '../../utils/util';
   import service from '../../service/service'
   export default {
       data() {
           return {
             playUrl: '',
-            lyric: '',
+            lyric: [],
             hotComments: [],
             comments: [],
             musicId: ''
@@ -57,12 +58,15 @@
         this.getMusicComment(this.musicId);
     },
     methods: {
-          getMusicUrl: function(id) {
+      getMusicUrl: function(id) {
               let vm = this;
               if(id) {
                   service.getPlayUrl(id).then(function(res) {
                       console.log(res);
                       vm.playUrl = res.data["0"].url;
+                      vm.$nextTick(function () {
+                        vm.getMusicDuration();
+                      })
                   })
               }
           },
@@ -70,12 +74,33 @@
         let vm = this;
         if(id) {
           service.getIcy(id).then(function(res) {
-              console.log(res);
               if(res.code == 200) {
-                  res.nolyric ? vm.lyric = '' : vm.lyric = res.lrc.lyric;
+                  if(!res.nolyric) {
+                    let lrc = res.lrc.lyric.split('\n');
+                    lrc.map(function (item) {
+                        let sec = item.substr(1, item.indexOf(']') - 1);
+                        let content = item.substr(item.indexOf(']') + 1);
+                      let obj = {
+                          sec: sec,
+                          content: content
+                      };
+                      vm.lyric.push(obj);
+                    });
+                  }
               }
+              console.log(vm.lyric);
           })
         }
+      },
+      getMusicDuration: function() {
+          let audio = document.getElementById('audio');
+          audio.addEventListener('canplay',function () {
+            let duration = audio.duration;
+            duration = util.formatterDuration(duration);
+          });
+          audio.addEventListener('timeupdate',function () {
+//            console.log(util.formatterDuration(audio.currentTime));
+          })
       },
       toggleLikeMusic: function (id) {
         let vm = this;
