@@ -33,8 +33,8 @@
         <div class="recommend-item">
           <div class="recommend-title"><Icon type="md-calendar" size="30" color="#d6413d" />推荐歌单<span class="check-more">更多&gt;</span></div>
           <Row class="recommend-play-list" :gutter="24" justify="center">
-            <Col span="8" class="recommend-play-item" v-for="item in recommendMusic" :key="item.id" @click="goPlayMusic(item.id)">
-              <div class="play-pic-box">
+            <Col :xs="{ span: 12 }" :lg="{span: 8}" class="recommend-play-item" v-for="item in recommendMusic" :key="item.id">
+              <div class="play-pic-box" @click="$router.push({path: 'songsCategoryDetail', query: {id: item.id}})">
                 <img :src="item.picUrl" />
                 <div class="music-play-count"><Icon type="ios-headset-outline" />{{ item.playCount > 10000 ? (item.playCount / 10000).toFixed(0) + '万' : (item.playCount.toFixed(0) + '人') }}</div>
               </div>
@@ -47,7 +47,7 @@
         <div class="recommend-item">
           <div class="recommend-title"><Icon type="md-calendar" size="30" color="#d6413d" />推荐MV<span class="check-more" @click="$router.push('/MV')">更多&gt;</span></div>
           <ul class="recommend-play-list">
-            <li class="recommend-play-item" v-for="item in recommendMVs" :key="item.id" @click="goPlayMV(item.id)">
+            <li class="recommend-play-item" v-for="item in recommendMVs" :key="item.id" @click="$router.push({path: '/playMV', query: { id: item.id }})">
               <img :src="item.picUrl" />
               <p>{{ item.name }}</p>
               <p>{{ item.copywriter }}</p>
@@ -77,6 +77,7 @@
           </ul>
         </div>
       </TabPane>
+      <!--
       <TabPane label="歌单" name="name2">
         <div class="songs-type-box">
           <span>全部歌单</span>
@@ -99,9 +100,9 @@
           </Row>
         </div>
       </TabPane>
-      <TabPane label="主播电台" name="name4">
-
-      </TabPane>
+      -->
+      <TabPane label="主播电台" name="name4"></TabPane>
+      <!--
       <TabPane label="排行榜" name="name5">
         <div class="top-list-box">
           <div class="top-music-item" v-for="item in topMusicList" :key="item.id">
@@ -119,18 +120,9 @@
               </Col>
             </Row>
           </div>
-          <!--<div class="top-list-describe">-->
-            <!--<p>{{ topMusicList.name }}</p>-->
-            <!--<p>{{ topMusicList.description }}</p>-->
-            <!--<p>播放次数：{{ topMusicList.playCount }}  分享次数：{{ topMusicList.shareCount }}</p>-->
-          <!--</div>-->
-          <!--<ul class="top-list">-->
-            <!--<li v-for="item in topMusicList.tracks" :key="item.id" @click="playMusic(item.id)">-->
-              <!--{{ item.name }}-->
-            <!--</li>-->
-          <!--</ul>-->
         </div>
       </TabPane>
+  -->
     </Tabs>
     <!--<div class="bottom-music-box">-->
       <!--<current-music></current-music>-->

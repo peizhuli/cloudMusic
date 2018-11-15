@@ -114,4 +114,7 @@ export default {
     font-size: 1.2rem;
     background: #fff;
   }
+  .account-count-box {
+    text-align: center;
+  }
 </style>

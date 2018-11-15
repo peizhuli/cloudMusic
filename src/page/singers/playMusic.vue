@@ -4,20 +4,7 @@
 
     </div>
     <!--<p>{{ lyric }}</p>-->
-    <div class="comments-box">
-      <div class="comment-item" v-for="item in hotComments" :key="item.commentId">
-        <Row>
-          <Col span="4" class="avatar-box">
-            <!--<img :src="item.user.avatarUrl" />-->
-          <Avatar :src="item.user.avatarUrl"></Avatar>
-          </Col>
-          <Col span="20" class="comment-content">
-            <div class="nickname">{{ item.user.nickname }}</div>
-            <div>{{ item.content }}</div>
-          </Col>
-        </Row>
-      </div>
-    </div>
+
     <Row class="song-action-box">
       <Col span="6">
         <Icon type="ios-heart-outline" size="30" @click="toggleLikeMusic(musicId)" />
@@ -27,7 +14,7 @@
       </Col>
       <Col span="6">
         <Badge :count="comments.length">
-          <Icon type="ios-text-outline" size="30" />
+          <Icon type="ios-text-outline" size="30" @click="$router.push({path: '/Comments', query: { type: 0, id: $route.query.id }})" />
         </Badge>
       </Col>
       <Col span="6">
@@ -35,6 +22,14 @@
       </Col>
     </Row>
     <audio id="audio" :src="playUrl" controls></audio>
+    <div class="play-action-box">
+      <Icon type="ios-skip-backward-outline" size="30" color="d6413d"/>
+      <Icon type="ios-play-outline" size="30" color="d6413d" />
+      <Icon type="md-heart-outline" size="30" color="d6413d" />
+      <!--<Icon type="ios-pause-outline" />-->
+      <Icon type="ios-skip-forward-outline" size="30" color="d6413d" />
+      <Icon type="md-more" size="30" color="d6413d" />
+    </div>
   </div>
 </template>
 
@@ -129,14 +124,5 @@
   }
   .song-action-box {
     text-align: center;
-  }
-  .comment-item {
-    margin-top: 1rem;
-  }
-  .avatar-box {
-    text-align: right;
-  }
-  .comment-content {
-    padding: 0 1%;
   }
 </style>

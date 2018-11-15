@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-content">
     <video :src="videoUrl" controls></video>
   </div>
 </template>
@@ -29,3 +29,9 @@
     }
   }
 </script>
+
+<style scoped>
+  video {
+    max-width: 100%;
+  }
+</style>

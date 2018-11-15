@@ -8,7 +8,7 @@
     <!--<Icon class="search-icon" type="ios-search-outline" size="40" />-->
     <slot name="home" v-if="this.$route.name == 'Home'">
       <div class="search-box">
-        <input placeholder="音乐、视频、歌词、电台" v-model="keyword" @focus="" />
+        <input placeholder="音乐、视频、歌词、电台" v-model="keyword" @focus="$router.push('/search')" />
       </div>
     </slot>
     <slot name="subTitle" v-if="this.$route.name != 'Home'">

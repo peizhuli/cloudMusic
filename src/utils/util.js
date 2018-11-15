@@ -41,5 +41,14 @@ export default {
     let sec = parseInt(duration % 60) < 10 ? '0' + parseInt(duration % 60) : parseInt(duration % 60);
     let time = mininus + ':' + sec;
     return time;
+  },
+  formatterTime: function (time) {
+    let currentTime = new Date(time);
+    let year = currentTime.getFullYear();
+    let month = currentTime.getMonth() + 1;
+    month = month < 10 ? '0' + month : month;
+    let day = currentTime.getDay();
+    day = day < 10 ? '0' + day : day;
+    return year + '年' + month + '月' + day + '日';
   }
 }

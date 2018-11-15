@@ -5,6 +5,7 @@
         <input placeholder="音乐、视频、歌词、电台" v-model="keyword" @input="hotSearchSuggest" @enter="searchMusic(keyword, '1', 30, 0)" />
         <Icon type="ios-search" color="#999" size="40" />
       </div>
+      <span style="font-size: 1.2rem;" @click="$router.go(-1)">取消</span>
     </div>
     <div class="app-content">
       <router-link to="/artistType">
@@ -207,6 +208,9 @@
 </script>
 
 <style scoped>
+  .search-box {
+    display: inline-block;
+  }
   .header-bar {
     position: fixed;
     width: 100%;

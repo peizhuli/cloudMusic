@@ -31,6 +31,7 @@ html,body {
   height: 100%;
   margin: 0 auto;
   background: #F3F4F6;
+  font-family: PingFang SC, san Francisco;
 }
 #app {
   width: 100%;
@@ -43,12 +44,17 @@ html,body {
 .app-content {
   width: 100%;
   height: 100%;
-  padding-top: 4rem;
+  padding: 4rem 0;
+}
+.padBtm {
+  padding-bottom: 4rem;
 }
 img {
   max-width: 100%;
 }
-
+.ivu-tabs {
+  text-align: center;
+}
 .ivu-tabs-bar {
   margin: 0 auto;
   display: inline-block;

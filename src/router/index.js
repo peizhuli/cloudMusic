@@ -10,7 +10,9 @@ import Account from '@/page/account/account';
 import Person_Collection from '@/page/account/personal_collection';
 import Person_PlayRecord from '@/page/account/personal_playRecord';
 import Profile from '@/page/account/profile';
+import Profile_Event from '@/page/account/profile_event';
 import profileMusic from '@/page/account/profileMusic';
+import Comments from '@/page/songs/comments';
 
 import Singer from '@/page/singers/singers';
 import ArtistPlay from '@/page/singers/artistPlay';
@@ -69,6 +71,14 @@ const routes = new Router({
       }
     },
     {
+      path: '/profileEvent',
+      name: 'profileEvent',
+      component: Profile_Event,
+      meta: {
+        title: '动态'
+      }
+    },
+    {
       path: '/profileMusic',
       name: 'profileMusic',
       component: profileMusic,
@@ -106,7 +116,10 @@ const routes = new Router({
     {
       path: '/singer',
       name: 'Singer',
-      component: Singer
+      component: Singer,
+      meta: {
+        title: '歌手分类'
+      }
     },
     {
       path: '/artistPlay',
@@ -194,7 +207,18 @@ const routes = new Router({
     {
       path: '/songsCategoryDetail',
       name: 'songsCategoryDetail',
-      component: songsCategoryDetail
+      component: songsCategoryDetail,
+      meta: {
+        title: '歌单详情'
+      }
+    },
+    {
+      path: '/comments',
+      name: 'Comments',
+      component: Comments,
+      meta: {
+        title: '歌曲评论'
+      }
     },
     {
       path: '/DJs',
