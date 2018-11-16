@@ -29,12 +29,12 @@
           }
       },
     computed: {
-      ...mapState(['profile'])
+      ...mapState(['user'])
     },
       methods: {
         getUserFocusList: function () {
           let vm = this;
-          service.getUserFocusList(vm.profile.userId).then(function (res) {
+          service.getUserFocusList(vm.user.profile.userId).then(function (res) {
             console.log(res);
             if(res.code == 200) {
                 vm.follows = res.follow;

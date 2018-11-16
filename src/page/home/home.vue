@@ -101,7 +101,23 @@
         </div>
       </TabPane>
       -->
-      <TabPane label="主播电台" name="name4"></TabPane>
+      <TabPane label="主播电台" name="name4">
+        <div class="">
+          <span @click="$router.push('/DJCategory')">电台分类</span>
+        </div>
+        <div class="payment-dj-box">
+          <Row class="payment-list" v-for="item in paymentDJs" :key="item.id">
+            <Col :xs="{span: 6}">
+              <img :src="item.picUrl" />
+            </Col>
+            <Col :xs="{span: 18}" class="payment-item-content">
+              <div>{{ item.name }}</div>
+              <div>{{ item.rcmdText }}</div>
+              <div>{{ item.lastProgramName }}</div>
+            </Col>
+          </Row>
+        </div>
+      </TabPane>
       <!--
       <TabPane label="排行榜" name="name5">
         <div class="top-list-box">
@@ -142,11 +158,12 @@
           this.getRecommendMVs();
           this.getPrivateContents();
           this.getRecommendDJs();
-          this.getTopMusicList();
+//          this.getTopMusicList();
 
-          this.getHotPlayType();
-          this.getPlayType();
+//          this.getHotPlayType();
+//          this.getPlayType();
           this.getWellChosenPlay();
+          this.getPayDJ();
       },
       data() {
           return {
@@ -155,10 +172,12 @@
             recommendMVs: [],
             recommendDJs: [],
             privateContents: [],
-            topMusicList: [],
-            hotPlayType: [],
-            playType: [],
-            wellChosenPlay: []
+//            topMusicList: [],
+//            hotPlayType: [],
+//            playType: [],
+            wellChosenPlay: [],
+
+            paymentDJs: []
           }
       },
     components: {
@@ -217,17 +236,17 @@
               });
       },
 
-      getHotPlayType: function () {
-        let vm = this;
-        service.getHotPlayList().then(function (res) {
-          vm.hotPlayType = res.tags;
-        })
-      },
-      getPlayType: function () {
-        let vm = this;
-        service.getPlayList().then(function (res) {
-        })
-      },
+//      getHotPlayType: function () {
+//        let vm = this;
+//        service.getHotPlayList().then(function (res) {
+//          vm.hotPlayType = res.tags;
+//        })
+//      },
+//      getPlayType: function () {
+//        let vm = this;
+//        service.getPlayList().then(function (res) {
+//        })
+//      },
       getWellChosenPlay: function () {
         let vm = this;
         service.getWellChosenList().then(function (res) {;
@@ -235,16 +254,24 @@
         })
       },
 
-      getTopMusicList: function () {
-        let vm = this;
-        service.getMusicTopBrief().then(function (res) {
-          vm.topMusicList = res.list;
-        })
-      },
+//      getTopMusicList: function () {
+//        let vm = this;
+//        service.getMusicTopBrief().then(function (res) {
+//          vm.topMusicList = res.list;
+//        })
+//      },
 
       getPlayListDetail: function (id) {
         this.$router.push({path: '/songsCategoryDetail', query: { id: id }});
       },
+
+      getPayDJ: function () {
+        let vm = this;
+        service.getDJPayList(3,0).then(function (res) {
+          console.log(res);
+          vm.paymentDJs = res.data.list;
+        })
+      }
 //      changeRoute: function (path) {
 //        this.$router.push(path);
 //      },
@@ -353,10 +380,16 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  /*.music-top-list {*/
-    /*display: flex;*/
-    /*justify-content: center;*/
-    /*align-items: flex-start;*/
-    /*flex-direction: column;*/
-  /*}*/
+
+  .payment-item-content {
+    padding-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 </style>

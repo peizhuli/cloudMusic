@@ -145,6 +145,8 @@ const API = {
   getDJRecommend: () => request.get('/dj/recommend', null, BASEAPI),
   //电台-分类
   getDJType: () => request.get('/dj/catelist', null, BASEAPI),
+  //电台分类推荐
+  getDJCategoryRecommend: (id) => request.get('/dj/recommend/type?type=' + id, null, BASEAPI),
   //电台订阅列表
   getDJSubList: () => request.get('/dj/sublist', null, BASEAPI),
   //电台付费精选
@@ -153,7 +155,8 @@ const API = {
   getDJDetail: (id) => request.get('/dj/detail?rid=' + id, null, BASEAPI),
   //电台-节目
   getDJPrograme: (id, limit=30, offset=0) => request.get('/dj/program?rid=' + id + '&limit=' + limit + '&offset=' + offset, null, BASEAPI),
-
+  //电台url
+  getDJUrl: (id) => request.get('/song/url?id=' + id, null, BASEAPI)
   //歌曲详情
 
 

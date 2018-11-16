@@ -50,8 +50,8 @@
               service.loginWidthEmail(vm.userName, vm.password).then(function(res) {
                   if(res.code == 200) {
                     util.setCookie('tokenJsonStr', res.bindings["0"].tokenJsonStr, res.bindings["0"].expiresIn);
-                    vm.SET_PROFILE(res.profile);
-                    util.setLocalStore('profile', res.profile);
+                    vm.SET_PROFILE(res);
+                    util.setLocalStore('user', res);
 //                    service.getUserFans(res.profile.userId, 30, 0).then(function (res) {
 //                      if(res.code == 200) {
 //                          vm.GET_USER_FANS(res.followeds);
@@ -63,11 +63,11 @@
 //                      }
 //                    });
                     var uid = res.profile.userId;
-                    service.getUserDetailInfo(uid).then(function(userDetail) {
-                        if(userDetail.code == 200) {
-                            vm.GET_USER_INFO_COUNT(userDetail.profile);
-                        }
-                    })
+//                    service.getUserDetailInfo(uid).then(function(userDetail) {
+//                        if(userDetail.code == 200) {
+//                            vm.GET_USER_INFO_COUNT(userDetail.profile);
+//                        }
+//                    });
                         alert('登陆成功！');
                         vm.$router.push('/account');
                   }

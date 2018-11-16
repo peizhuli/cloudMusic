@@ -31,7 +31,11 @@ import songsCategory from '@/page/songs/songsCategory';
 import songsCategoryDetail from '@/page/songs/songsCategoryDetail';
 
 import DJs from '@/page/DJs/DJs';
-import privateFM from '@/page/DJs/privateFM'
+import privateFM from '@/page/DJs/privateFM';
+import DJCategory from '@/page/DJs/DJ_category';
+import DJCategoryDetail from '@/page/DJs/DJ_category_detail';
+import DJDetail from '@/page/DJs/DJ_detail';
+import PlayDJ from '@/page/DJs/playDJ';
 
 Vue.use(Router);
 
@@ -237,21 +241,47 @@ const routes = new Router({
         requireAuth: true,
         title: '私人FM'
       }
+    },
+    {
+      path: '/DJCategory',
+      name: 'DJCategory',
+      component: DJCategory,
+      meta: {
+        title: '电台分类'
+      }
+    },
+    {
+      path: '/DJCategoryDetail',
+      name: 'DJCategoryDetail',
+      component: DJCategoryDetail,
+      meta: {
+        title: '电台分类推荐'
+      }
+    },
+    {
+      path: '/DJDetail',
+      name: 'DJDetail',
+      component: DJDetail,
+      meta: {
+        title: '电台详情'
+      }
+    },
+    {
+      path: '/playDJ',
+      name: 'playDJ',
+      component: PlayDJ,
+      meta: {
+        title: '电台详情'
+      }
     }
   ]
 });
 
 routes.beforeEach((to, from, next) => {
-  const profile = store.state.profile ? store.state.profile : localStorage.getItem('profile');
-  if(to.meta.requireAuth) {
-    if(profile.userId) {
-      next();
-    } else {
-      next({
-        path: '/login',
-        query: {redirect: '/login'}
-      });
-    }
+  let user = JSON.parse(localStorage.getItem('user'));
+  if(to.meta.requireAuth && !user.profile) {
+    next(false);
+    routes.push('/login');
   } else {
     next();
   }

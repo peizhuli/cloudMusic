@@ -13,12 +13,9 @@ const GET_USER_INFO_COUNT = 'GET_USER_INFO_COUNT';
 const LOG_OUT = 'LOG_OUT';
 
 export default {
-	[SET_PROFILE](state, profile) {
-		state.profile = profile;
+	[SET_PROFILE](state, user) {
+		state.profile = user;
 	},
-  [SET_ACCOUNT](state, account) {
-	  state.account = account;
-  },
   [SET_PLAY_LIST](state, playRecords) {
 	  state.playRecords = playRecords;
   },
@@ -32,7 +29,6 @@ export default {
 	  state.userFollows = userFollows;
   },
   [GET_USER_INFO_COUNT](state, profile) {
-	  console.log(profile);
 	  state.followedsCount = profile.followedsCount;
 	  state.followsCount = profile.followsCount;
 	  state.eventCount = profile.eventCount;

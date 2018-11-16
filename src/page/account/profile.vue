@@ -2,18 +2,18 @@
   <div class="profile-box">
     <div class="profile-info" :style="{background: profileBackUrl}">
       <div>
-        <input type="hidden" :id="profile.userId" />
-        <img class="profile-avatar" :src="profile.avatarUrl" />
-        <p>{{ profile.nickname }}
+        <input type="hidden" :id="user.profile.userId" />
+        <img class="profile-avatar" :src="user.profile.avatarUrl" />
+        <p>{{ user.profile.nickname }}
           <span class="profile-gender">
-          <Icon :type="profile.gender == 0 ? 'md-female' : 'md-male'" size="20" color="#fff" />
+          <Icon :type="user.profile.gender == 0 ? 'md-female' : 'md-male'" size="20" color="#fff" />
         </span>
         </p>
         <p>
           <span>关注：{{ userFollows.length ? userFollows.length : 0 }}</span>
           <span>粉丝：{{ userFans.length ? userFans.length : 0 }}</span>
         </p>
-        <p>{{ profile.description.length ? profile.description : '暂无描述' }}</p>
+        <p>{{ user.profile.description.length ? user.profile.description : '暂无描述' }}</p>
         <!--<p>是否VIP：{{ profile.vipType == 0 ? '否' : '是' }}</p>-->
         <div class="edit-info-btn">
           <Button size="large" icon="md-create" shape="circle" ghost>我的资料</Button>
@@ -38,10 +38,10 @@
           }
       },
     mounted() {
-          this.profileBackUrl = "url(" + this.profile.backgroundUrl + ") center no-repeat";
+          this.profileBackUrl = "url(" + this.user.profile.backgroundUrl + ") center no-repeat";
     },
     computed: {
-      ...mapState(['profile','userFans', 'userFollows'])
+      ...mapState(['user','userFans', 'userFollows'])
     }
   }
 </script>

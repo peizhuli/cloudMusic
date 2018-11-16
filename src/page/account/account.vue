@@ -2,9 +2,9 @@
     <div class="app-content">
         <div class="profile-info">
           <div>
-            <input type="hidden" :id="profile.userId" />
-            <img class="profile-avatar" :src="profile.userId ? profile.avatarUrl : defaultAvatar" />
-            <p>{{ profile.userId ? profile.nickname : '未登录' }}</p>
+            <input type="hidden" :id="user.profile.userId" />
+            <img class="profile-avatar" :src="user.profile.userId ? user.profile.avatarUrl : defaultAvatar" />
+            <p>{{ user.profile.userId ? user.profile.nickname : '未登录' }}</p>
           </div>
           <Row class="account-count-box">
             <Col span="6">
@@ -70,8 +70,8 @@ import util from '../../utils/util';
 import service from '../../service/service';
 export default {
   mounted() {
-//    this.getUserInfo();
-    this.profileBackUrl = "url(" + this.profile.backgroundUrl + ") center no-repeat";
+    this.getUserInfo();
+//    this.profileBackUrl = "url(" + this.user.profile.backgroundUrl + ") center no-repeat";
   },
     data() {
         return {
@@ -81,12 +81,12 @@ export default {
         }
     },
 	computed: {
-	  ...mapState(['profile', 'followedsCount', 'followsCount', 'eventCount'])
+	  ...mapState(['user', 'followedsCount', 'followsCount', 'eventCount'])
 	},
 	methods: {
     ...mapMutations(['SET_PROFILE']),
     getUserInfo: function() {
-      console.log(this.profile);
+      console.log(this.user);
     },
     goCollections: function(id) {
       this.$router.push({path: '/collection', query: { id: id }});

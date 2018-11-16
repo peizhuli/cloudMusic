@@ -21,7 +21,7 @@
               我的电台<span class="manage-count"> ({{ djCount }})</span>
           </span>
         </li>
-        <li class="account-item" @click="$router.push({path: '/collection', query: { id: profile.userId }})">
+        <li class="account-item" @click="$router.push({path: '/collection', query: { id: user.profile.userId }})">
           <Icon type="ios-person-add-outline" size="50" color="#d6413d" />
           <span>
               我的收藏<span class="manage-count"> ({{ collectionCount }}) </span>
@@ -56,12 +56,12 @@
           }
       },
       computed: {
-        ...mapState(['profile'])
+        ...mapState(['user'])
       },
     methods: {
       getUserPlayLists: function () {
         let vm = this;
-        service.getUserPlayLists(vm.profile.userId).then(function (res) {
+        service.getUserPlayLists(vm.user.profile.userId).then(function (res) {
           console.log('最近播放',res);
           vm.recentPlayListCount = res.weekData.length;
         })
