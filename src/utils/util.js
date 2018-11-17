@@ -50,5 +50,11 @@ export default {
     let day = currentTime.getDay();
     day = day < 10 ? '0' + day : day;
     return year + '年' + month + '月' + day + '日';
+  },
+  timeToSec: function(time) {
+    let hour = parseInt(time.substr(0,1));
+    let minute = parseInt(time.substr(1,2));
+    let sec = parseInt(time.substr(3,5));
+    return (hour * 10 + minute) * 60 + sec;
   }
 }

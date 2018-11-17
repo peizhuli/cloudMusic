@@ -29,6 +29,7 @@ import Album from '@/page/album/album';
 import AlbumDetail from '@/page/album/albumDetail';
 import songsCategory from '@/page/songs/songsCategory';
 import songsCategoryDetail from '@/page/songs/songsCategoryDetail';
+import dailyRecommendSongs from '@/page/songs/dailyRecommendSongs';
 
 import DJs from '@/page/DJs/DJs';
 import privateFM from '@/page/DJs/privateFM';
@@ -214,6 +215,15 @@ const routes = new Router({
       component: songsCategoryDetail,
       meta: {
         title: '歌单详情'
+      }
+    },
+    {
+      path: '/dailyRecommendSongs',
+      name: 'dailyRecommendSongs',
+      component: dailyRecommendSongs,
+      meta: {
+        requireAuth: true,
+        title: '每日推荐歌曲'
       }
     },
     {

@@ -35,17 +35,32 @@
         <span>创建的歌单({{ createPlayListCount }})</span>
         <Icon type="ios-settings-outline" size="30" color="#999" />
       </div>
+      <div class="play-list">
+        <div class="play-list-item" v-for="item in playList" :key="item.id">
+          <Row>
+            <Col :xs="{span: 6}">
+              <img :src="item.coverImgUrl" />
+            </Col>
+            <Col :xs="{span: 18}">
+              <div class="play-list-name">{{ item.name }}</div>
+              <div>更新时间：{{ formatterTime(item.trackUpdateTime) }}</div>
+            </Col>
+          </Row>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
   import { mapState } from 'vuex';
+  import util from '../../utils/util';
   import service from '../../service/service';
   export default {
       mounted() {
           this.getUserSubcount();
           this.getUserPlayLists();
+          this.getUserPlayList();
       },
       data() {
           return {
@@ -53,6 +68,7 @@
             collectionCount: 0,
             djCount: 0,
             createPlayListCount: 0,
+            playList: []
           }
       },
       computed: {
@@ -62,15 +78,31 @@
       getUserPlayLists: function () {
         let vm = this;
         service.getUserPlayLists(vm.user.profile.userId).then(function (res) {
-          console.log('最近播放',res);
           vm.recentPlayListCount = res.weekData.length;
         })
       },
       getUserSubcount: function () {
         let vm = this;
         service.getUserSubcount().then(function (res) {
-          console.log('用户信息',res);
+            console.log(res);
+            vm.createPlayListCount = res.createdPlaylistCount;
+            vm.djCount = res.djRadioCount;
+            vm.collectionCount = res.subPlaylistCount;
         })
+      },
+      getUserPlayList: function () {
+        let vm = this;
+        service.getUserSongs(vm.user.profile.userId).then(function (res) {
+          console.log(res);
+          res.playlist.map(function(item) {
+              if(item.creator.userId == vm.user.profile.userId) {
+                vm.playList.push(item);
+              }
+          });
+        })
+      },
+      formatterTime: function (time) {
+        return util.formatterTime(time);
       }
     }
   }
@@ -112,5 +144,13 @@
     padding: 1rem 2rem;
     font-size: 1rem;
     background: #E8EAE9;
+  }
+  .play-list-name {
+    font-size: 1.2rem;
+    color: #333;
+    line-height: 2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 </style>

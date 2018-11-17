@@ -27,6 +27,8 @@ const API = {
   getUserPlayLists: (uid, type = 1) => request.get('/user/record?uid=' + uid + '&type=' + type, null, BASEAPI),
   //获取用户动态
   getUserNews: (uid) => request.get('/user/event?uid=' + uid, null, BASEAPI),
+  //签到
+  dailySign: (type=1) => request.get('/daily_signin?type=' + type, null, BASEAPI),
 
   //banner
   getBanner: () => request.get('/banner', null, BASEAPI),
@@ -53,6 +55,8 @@ const API = {
   getRelativePlayList: (id) => request.get('/related/playlist?id=' + id, null, BASEAPI),
   //获取歌单详情
   getPlayDetailInfo: (id) => request.get('/playlist/detail?id=' + id, null, BASEAPI),
+  //获取歌曲详情
+  getSongDetail: (id) => request.get('/song/detail?ids=' + id, null, BASEAPI),
   //获取歌单播放地址
   getPlayUrl: (id) => request.get('/song/url?id=' + id, null, BASEAPI),
   //获取歌词
@@ -106,6 +110,8 @@ const API = {
   getSimilarMV: (id) => request.get('/simi/mv?mvid=' + id, null, BASEAPI),
   //每日推荐歌单
   getDailyRecomment: () => request.get('/recommend/resource?time=' + new Date(), null, BASEAPI),
+  //每日推荐歌曲
+  getDailyRecommendSongs: () => request.get('/recommend/songs', null, BASEAPI),
   //最新MV
   getNewMV: (limit=30) => request.get('/mv/first?limit=' + limit, null, BASEAPI),
   //私人FM

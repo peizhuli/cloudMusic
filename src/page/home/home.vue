@@ -17,7 +17,7 @@
             <p>私人FM</p>
           </Col>
           <Col span="8">
-          <div class="circle-border daily-recommend-music-count">
+          <div class="circle-border daily-recommend-music-count" @click="$router.push('/dailyRecommendSongs')">
             20
           </div>
           <p>每日歌曲推荐</p>

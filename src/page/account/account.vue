@@ -1,15 +1,26 @@
 <template>
     <div class="app-content">
         <div class="profile-info">
-          <div>
-            <input type="hidden" :id="user.profile.userId" />
-            <img class="profile-avatar" :src="user.profile.userId ? user.profile.avatarUrl : defaultAvatar" />
-            <p>{{ user.profile.userId ? user.profile.nickname : '未登录' }}</p>
+          <div class="profile-info-content" :style="{ background: profileBackUrl }">
+            <!--<Avatar size="large" :src="user.profile.userId ? user.profile.avatarUrl : defaultAvatar"></Avatar>-->
+            <Row>
+              <Col class="profile-avatar-box" :xs="{span: 12}">
+                <img class="profile-avatar" :src="user.profile.userId ? user.profile.avatarUrl : defaultAvatar" />
+                <p>{{ user.profile.userId ? user.profile.nickname : '未登录' }}</p>
+              </Col>
+              <Col class="profile-avatar-box" :xs="{span: 12}">
+                <div class="daily-sign">
+                  <Button type="default" shape="circle" icon="md-create">签到</Button>
+                </div>
+              </Col>
+            </Row>
           </div>
           <Row class="account-count-box">
             <Col span="6">
-              <div>动态</div>
+              <div @click="$router.push('/profileEvent')">
+                动态
               <div>{{ eventCount }}</div>
+              </div>
             </Col>
             <Col span="6">
             <div>关注</div>
@@ -71,7 +82,7 @@ import service from '../../service/service';
 export default {
   mounted() {
     this.getUserInfo();
-//    this.profileBackUrl = "url(" + this.user.profile.backgroundUrl + ") center no-repeat";
+    this.profileBackUrl = "url(" + this.user.profile.backgroundUrl + ") center no-repeat";
   },
     data() {
         return {
@@ -109,12 +120,41 @@ export default {
 </script>
 
 <style scoped>
+  .profile-info {
+    width: 100%;
+    height: 30%;
+  }
+  .profile-info-content {
+    width: 100%;
+    height: 80%;
+    color: #fff;
+  }
+  .profile-info-content > div {
+    height: 100%;
+  }
   .list-group {
     margin-top: 1rem;
     font-size: 1.2rem;
     background: #fff;
   }
   .account-count-box {
+    clear: both;
     text-align: center;
+  }
+  .daily-sign {
+    /*position: absolute;*/
+    /*right: 5%;*/
+    /*top: 20%;*/
+  }
+  .profile-avatar {
+    width: 40%;
+    border-radius: 50%;
+  }
+  .profile-avatar-box {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 </style>

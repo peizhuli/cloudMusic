@@ -22,6 +22,7 @@
   export default {
       mounted() {
           this.getUserFocusList();
+          this.getUserEvent();
       },
       data() {
           return {
@@ -39,6 +40,12 @@
             if(res.code == 200) {
                 vm.follows = res.follow;
             }
+          })
+        },
+        getUserEvent: function () {
+          let vm = this;
+          service.getUserNews(vm.user.profile.userId).then(function (res) {
+            console.log(res);
           })
         }
       }
