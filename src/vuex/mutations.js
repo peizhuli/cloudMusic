@@ -11,6 +11,7 @@ const GET_USER_FANS = 'GET_USER_FANS';
 const GET_USER_FOLLOWS = 'GET_USER_FOLLOWS';
 const GET_USER_INFO_COUNT = 'GET_USER_INFO_COUNT';
 const LOG_OUT = 'LOG_OUT';
+const SET_CURRENT_MUSIC_ID = 'SET_CURRENT_MUSIC_ID';
 
 export default {
 	[SET_PROFILE](state, user) {
@@ -36,5 +37,8 @@ export default {
   [LOG_OUT](state) {
 	  state.profile = {};
 	  state.state = {};
+  },
+  [SET_CURRENT_MUSIC_ID](state, currentMusicId) {
+	  state.currentMusicId = currentMusicId;
   }
 }

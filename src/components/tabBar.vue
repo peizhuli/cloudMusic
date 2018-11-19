@@ -14,7 +14,7 @@
         </div>
       </Col>
       <Col span="6">
-        <div @click="$router.push('/')">
+        <div @click="$router.push('/friends/events')">
           <Icon type="ios-people-outline" size="30" />
           <p>朋友</p>
         </div>

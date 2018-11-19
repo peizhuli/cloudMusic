@@ -14,6 +14,7 @@ const state = {
   followsCount: 0,    //关注数量
   eventCount: 0, //动态
   // playlistCount: 0  //歌单
+  currentMusicId: ''
 };
 
 export default state;

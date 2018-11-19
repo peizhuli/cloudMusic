@@ -29,6 +29,8 @@ const API = {
   getUserNews: (uid) => request.get('/user/event?uid=' + uid, null, BASEAPI),
   //签到
   dailySign: (type=1) => request.get('/daily_signin?type=' + type, null, BASEAPI),
+  //获取动态消息
+  getDynamicNews: () => request.get('/event', null, BASEAPI),
 
   //banner
   getBanner: () => request.get('/banner', null, BASEAPI),
@@ -145,6 +147,8 @@ const API = {
   getMusicTopBrief: () => request.get('/toplist/detail', null, BASEAPI),
   //歌手榜
   getTopSinger: () => request.get('/toplist/artist', null, BASEAPI),
+  //云音乐热歌榜
+  getCloudHotMusic: (id = 1) => request.get('/top/list?idx=' + id, null, BASEAPI),
 
   //电台
   //电台-推荐

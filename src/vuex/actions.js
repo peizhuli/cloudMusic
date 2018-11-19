@@ -15,7 +15,7 @@ export default {
     if(localStorage.getItem('user')) {
       let userId = JSON.parse(localStorage.getItem('user')).profile.userId;
       await service.getUserPlayLists(userId,0).then(function(res) {
-        commit('SET_PLAY_LIST', res)
+        commit('SET_PLAY_LIST', res);
       })
     }
   }

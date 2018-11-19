@@ -13,6 +13,9 @@ import Profile from '@/page/account/profile';
 import Profile_Event from '@/page/account/profile_event';
 import profileMusic from '@/page/account/profileMusic';
 import Comments from '@/page/songs/comments';
+import Friends from '@/page/account/friends';
+import Events from '@/page/account/friends_event';
+import Follows from '@/page/account/friends_follows';
 
 import Singer from '@/page/singers/singers';
 import ArtistPlay from '@/page/singers/artistPlay';
@@ -30,6 +33,7 @@ import AlbumDetail from '@/page/album/albumDetail';
 import songsCategory from '@/page/songs/songsCategory';
 import songsCategoryDetail from '@/page/songs/songsCategoryDetail';
 import dailyRecommendSongs from '@/page/songs/dailyRecommendSongs';
+import cloudHotMusic from '@/page/songs/cloudHotMusic';
 
 import DJs from '@/page/DJs/DJs';
 import privateFM from '@/page/DJs/privateFM';
@@ -90,6 +94,23 @@ const routes = new Router({
       meta: {
         title: '我的音乐'
       }
+    },
+    {
+      path: '/friends',
+      name: 'friends',
+      component: Friends,
+      children: [
+        {
+          path: 'events',
+          name: 'events',
+          component: Events,
+        },
+        {
+          path: 'follows',
+          name: 'follows',
+          component: Follows,
+        }
+      ]
     },
     {
       path: '/collection',
@@ -191,6 +212,14 @@ const routes = new Router({
       meta: {
         requireAuth: true,
         title: '排行榜'
+      }
+    },
+    {
+      path: '/cloudHotMusic',
+      name: 'cloudHotMusic',
+      component: cloudHotMusic,
+      meta: {
+        title: '云音乐热歌榜'
       }
     },
     {

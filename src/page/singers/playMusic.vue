@@ -41,7 +41,7 @@
       <!--<Icon type="md-heart-outline" size="30" color="d6413d" />-->
       <!--<Icon type="ios-pause-outline" />-->
       <Icon type="ios-skip-forward-outline" size="40" color="#d6413d" />
-      <Icon type="md-more" size="40" />
+      <Icon type="md-more" size="40" @click="getUserPlayLists" />
     </div>
 
     <lrc :lrcList="lyric" :currentTime="currentTime" @hideLrc="IsShowLrc = false" v-if="IsShowLrc"></lrc>
@@ -49,7 +49,10 @@
 </template>
 
 <script>
+  //在切换其他路由时，保持当前音乐列表播放，页面不显示
+  //播放列表获取， 播放类型： 循环，随机等
   import util from '../../utils/util';
+  import {mapState, mapMutations} from 'vuex'
   import service from '../../service/service'
   import lrc from '../../components/lrc';
   export default {
@@ -66,7 +69,8 @@
             playTime: '00:00',
             IsPlay: false,
             musicInfo: {},
-            IsShowLrc: false
+            IsShowLrc: false,
+            allPlayList: []
           }
       },
     components: {
@@ -74,7 +78,7 @@
     },
     mounted() {
       let audio = document.getElementById('audio');
-      this.musicId = this.$route.query.id;
+      this.musicId = this.$route.query.id || this.$store.state.currentMusicId;
       this.getMusicDetail(this.musicId);
         this.getMusicUrl(this.musicId);
         this.getMusicLyric(this.musicId);
@@ -82,6 +86,7 @@
         this.getMusicDuration();
     },
     methods: {
+      ...mapMutations(['SET_CURRENT_MUSIC_ID']),
       getMusicDetail: function (id) {
           let vm = this;
           service.getSongDetail(id).then(function (res) {
@@ -98,7 +103,8 @@
                       vm.$nextTick(function () {
                         vm.getMusicDuration();
                       })
-                  })
+                  });
+                  vm.SET_CURRENT_MUSIC_ID(id);
               }
           },
       getMusicLyric: function(id) {
@@ -133,6 +139,7 @@
             vm.duration = duration;
           });
           audio.addEventListener('ended',function () {
+              //根据播放类型（列表循环、随机...），获取下一首
               vm.IsPlay = false;
               audio.pause();
               vm.currentTime = 0;
@@ -174,7 +181,19 @@
       },
       hideFormat () {
         return null;
+      },
+      getUserPlayLists: function () {
+        let vm = this;
+        service.getUserPlayLists(vm.$store.state.user.profile.userId, 0).then(function (res) {
+          console.log('最近播放',res);
+          if(res.code == 200) {
+            vm.allPlayList = res.allData;
+          }
+        })
       }
+    },
+    watch: {
+
     }
   }
 </script>

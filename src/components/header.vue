@@ -18,6 +18,9 @@
         </span>
         {{ title }}
       </div>
+      <span>
+          <Icon class="play-music-icon" type="ios-stats" size="30" @click="$router.push('/playMusic')" />
+        </span>
     </slot>
   </div>
 </template>
@@ -65,6 +68,11 @@
     line-height: 4rem;
   }
   .search-icon {
+    float: right;
+    margin-right: 5%;
+    line-height: 4rem;
+  }
+  .play-music-icon {
     float: right;
     margin-right: 5%;
     line-height: 4rem;

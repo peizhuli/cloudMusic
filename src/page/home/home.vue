@@ -23,7 +23,7 @@
           <p>每日歌曲推荐</p>
           </Col>
           <Col span="8">
-          <div class="circle-border">
+          <div class="circle-border" @click="$router.push('/cloudHotMusic')">
             <Icon type="ios-podium-outline" color="#d6413d" />
           </div>
           <p>云音乐热歌榜</p>

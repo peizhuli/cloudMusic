@@ -48,6 +48,24 @@
           </Row>
         </div>
       </div>
+      <div class="created-play-header">
+        <Icon type="ios-arrow-down" size="30" color="#999" />
+        <span>喜欢的歌单({{ subPlaylistCount }})</span>
+        <Icon type="ios-settings-outline" size="30" color="#999" />
+      </div>
+      <div class="play-list">
+        <div class="play-list-item" v-for="item in likePlayList" :key="item.id">
+          <Row>
+            <Col :xs="{span: 6}">
+              <img :src="item.coverImgUrl" />
+            </Col>
+            <Col :xs="{span: 18}">
+              <div class="play-list-name">{{ item.name }}</div>
+              <div>更新时间：{{ formatterTime(item.trackUpdateTime) }}</div>
+            </Col>
+          </Row>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -61,6 +79,7 @@
           this.getUserSubcount();
           this.getUserPlayLists();
           this.getUserPlayList();
+          this.getLocalMusic();
       },
       data() {
           return {
@@ -68,7 +87,9 @@
             collectionCount: 0,
             djCount: 0,
             createPlayListCount: 0,
-            playList: []
+            subPlaylistCount: 0,
+            playList: [],
+            likePlayList: []
           }
       },
       computed: {
@@ -88,6 +109,7 @@
             vm.createPlayListCount = res.createdPlaylistCount;
             vm.djCount = res.djRadioCount;
             vm.collectionCount = res.subPlaylistCount;
+            vm.subPlaylistCount = res.subPlaylistCount;
         })
       },
       getUserPlayList: function () {
@@ -97,12 +119,17 @@
           res.playlist.map(function(item) {
               if(item.creator.userId == vm.user.profile.userId) {
                 vm.playList.push(item);
+              } else {
+                vm.likePlayList.push(item);
               }
           });
         })
       },
       formatterTime: function (time) {
         return util.formatterTime(time);
+      },
+      getLocalMusic: function () {
+
       }
     }
   }
