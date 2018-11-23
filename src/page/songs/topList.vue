@@ -1,17 +1,26 @@
 <template>
-  <div>
-    <div class="top-type-box">
-      <span v-for="item in topTypes" :key="item.value" @click="getTopList(item.value)">{{ item.name }}</span>
-    </div>
+  <div class="app-content">
     <div class="top-list-box">
-      <div class="top-list-describe">
-        <p>{{ topList.name }}</p>
-        <p>{{ topList.description }}</p>
-        <p>播放次数：{{ topList.playCount }}  分享次数：{{ topList.shareCount }}</p>
+      <div class="top-list-info-box">
+        <Row class="top-list-info">
+          <Col span="6">
+            <img :src="topList.coverImgUrl" />
+          </Col>
+          <Col span=18 class="top-info-detail">
+            <div>{{ topList.name }}</div>
+            <div>{{ topList.description }}</div>
+            <div>播放次数：{{ topList.playCount }}  分享次数：{{ topList.shareCount }}</div>
+          </Col>
+        </Row>
       </div>
       <ul class="top-list">
         <li v-for="item in topList.tracks" :key="item.id" @click="playMusic(item.id)">
-          {{ item.name }}
+          <Icon type="md-arrow-dropright-circle"size="20" />
+          <span class="top-item-name">
+            {{ item.name }}
+            <span v-if="item.alia.length"> - {{ item.alia[0] }}</span>
+          </span>
+          <Icon class="more-info" type="ios-more" size="20" />
         </li>
       </ul>
     </div>
@@ -21,6 +30,10 @@
 <script>
   import service from '../../service/service'
   export default {
+      mounted() {
+          let name = this.$route.query.name;
+          this.getTopList(name);
+      },
       data() {
           return {
             topTypes: [
@@ -125,8 +138,15 @@
           }
       },
     methods: {
-          getTopList: function (id) {
+          getTopList: function (name) {
             let vm = this;
+            let id = '';
+            console.log(name);
+            vm.topTypes.map(function(item) {
+                if(item.name == name) {
+                    id = item.value;
+                }
+            });
             service.getTop(id).then(function (res) {
               console.log(res);
               vm.topList = res.playlist;
@@ -138,3 +158,30 @@
     }
   }
 </script>
+
+<style scoped>
+  .top-list-box {
+    padding: 1rem;
+  }
+  .top-list-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+  .top-info-detail {
+    padding-left: 1rem;
+  }
+  .top-item-name {
+    display: inline-block;
+    width: 90%;
+    font-size: 1rem;
+    line-height: 1.6;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .more-info {
+    float: right;
+  }
+</style>

@@ -48,17 +48,36 @@
               </Col>
               <Col span="22">
                 <div class="category-item-name">
-                  {{ item.name }}
+                  <span>{{ item.name }}</span>
+                  <span v-if="item.alia.length"> - {{ item.alia["0"] }}</span>
                   <span class="more-icon-box">
-                  <Icon type="md-more" size="20" />
-                </span>
+                    <Icon type="md-arrow-dropright-circle" size="20" v-if="item.mv != 0" @click.stop="$router.push({path: '/playMV', query: { id: item.mv }})" />
+                    <Icon type="md-more" size="20" @click.stop="showCurrentSongOptions(item.al.id, item.mv, item.id)" />
+                  </span>
                 </div>
-                <div class="artist-name">{{ item.ar[0].name }}</div>
+                <div class="artist-name">
+                  {{ item.ar[0].name }}
+                  <span> - {{ item.al.name }}</span>
+                </div>
               </Col>
             </Row>
           </div>
         </li>
       </ul>
+    </div>
+    <div class="music-option-box" v-show="showOptionsBox">
+      <div class="music-option-item" :disable="currentMVId == 0" @click.stop="$router.push({path: '/playMV', query: { id: currentMVId }})">
+        <Icon type="md-arrow-dropright-circle" size="30" color="#d6413d" />
+        <span>查看视频</span>
+      </div>
+      <div class="music-option-item" :disable="currentMVId == 0" @click.stop="$router.push({path: '/album/albumDetail', query: { id: currentAlbumId }})">
+        <Icon type="ios-albums-outline" size="30" color="#d6413d" />
+        <span>查看专辑</span>
+      </div>
+      <div class="music-option-item" :disable="currentMVId == 0" @click.stop="delSongFromPlayList(currentSongId)">
+        <Icon type="ios-trash" size="30" color="#d6413d" />
+        <span>删除歌曲</span>
+      </div>
     </div>
   </div>
 </template>
@@ -71,7 +90,11 @@
       },
       data() {
           return {
-              categoryDetail: {}
+            categoryDetail: {},
+            currentAlbumId: '',
+            currentMVId: '',
+            currentSongId: '',
+            showOptionsBox: false
           }
       },
     methods: {
@@ -85,6 +108,19 @@
                   }
               })
           },
+      showCurrentSongOptions: function (albumId, mvId, currentSongId) {
+              this.currentAlbumId = albumId;
+              this.currentMVId = mvId;
+              this.currentSongId = currentSongId;
+              this.showOptionsBox = true;
+      },
+      delSongFromPlayList: function ( songId) {
+        let vm = this;
+        let playListId = vm.categoryDetail.id;
+        service.playListOparation('del', playListId, songId).then(function (res) {
+          console.log(res);
+        })
+      },
       goPlayMusic: function(id) {
               this.$router.push({path: '/playMusic', query: { id: id }});
       }
@@ -151,5 +187,13 @@
   }
   .play-all-action-icon {
     float: right;
+  }
+  .music-option-box {
+    position: absolute;
+    width: 100%;
+    height: 60%;
+    bottom: 4rem;
+    background: #fff;
+    z-index: 9;
   }
 </style>

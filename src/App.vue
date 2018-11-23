@@ -27,8 +27,9 @@
 
 <style>
 html,body {
-  /*width: 750px;*/
+  width: 750px;
   height: 100%;
+  position: relative;
   margin: 0 auto;
   background: #F3F4F6;
   font-family: PingFang SC, san Francisco;
@@ -112,5 +113,38 @@ ul,li {
   position: absolute;
   right: 3%;
   top: 10%;
+}
+
+.left-img-box {
+
+}
+.right-content-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.right-info-box {
+  padding-left: 1rem;
+  font-size: 1.4rem;
+  line-height: 2;
+}
+.music-play-count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 2px 5px;
+  color: #fff;
+  background: linear-gradient(left,rgba(9,9,9,0.2),rgba(3,3,3,0.8));
+}
+.creator {
+  position: absolute;
+  bottom: 10%;
+  left: 5%;
+  padding: 2px 5px;
+  color: #fff;
+  background: linear-gradient(left,rgba(9,9,9,0.2),rgba(3,3,3,0.8));
+}
+.play-name {
+  height: 56px;
 }
 </style>

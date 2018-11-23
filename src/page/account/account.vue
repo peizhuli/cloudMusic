@@ -10,7 +10,7 @@
               </Col>
               <Col class="profile-avatar-box" :xs="{span: 12}">
                 <div class="daily-sign">
-                  <Button type="default" shape="circle" icon="md-create">签到</Button>
+                  <Button type="default" shape="circle" icon="md-create" @click="dailySign(user.profile.userId)">签到</Button>
                 </div>
               </Col>
             </Row>
@@ -38,37 +38,35 @@
         </div>
         <div class="menu-list-box">
           <CellGroup class="list-group">
-            <Cell title="我的消息" >
+            <Cell class="list-item" title="我的消息">
               <Icon type="ios-mail-outline" slot="icon" />
             </Cell>
           </CellGroup>
           <CellGroup class="list-group">
-            <Cell title="VIP会员"></Cell>
-            <Cell title="商城">
+            <Cell class="list-item" title="VIP会员"></Cell>
+            <Cell class="list-item" title="商城">
               <Icon type="ios-cart-outline" slot="icon" />
             </Cell>
-            <Cell title="在线听歌免流量">
+            <Cell class="list-item" title="在线听歌免流量">
               <Icon type="ios-briefcase-outline" slot="icon" />
             </Cell>
           </CellGroup>
           <CellGroup class="list-group">
-            <Cell title="设置">
+            <Cell class="list-item" title="设置">
               <Icon type="ios-cart-outline" slot="icon" />
             </Cell>
-            <Cell title="扫一扫">
+            <Cell class="list-item" title="扫一扫">
               <Icon type="ios-cart-outline" slot="icon" />
             </Cell>
-            <Cell title="主题换肤">
+            <Cell class="list-item" title="主题换肤">
               <Icon type="ios-cart-outline" slot="icon" />
             </Cell>
-            <Cell title="夜间模式">
+            <Cell class="list-item" title="夜间模式">
               <Icon type="ios-cart-outline" slot="icon" />
               <Switch v-model="openNightModel" slot="extra" />
             </Cell>
-            <Cell title="退出登录">
-              <div @click="logout()">
-                <Icon type="ios-cart-outline" />
-              </div>
+            <Cell class="list-item" title="退出登录">
+                <Icon type="ios-cart-outline" @click="logout()" />
             </Cell>
           </CellGroup>
         </div>
@@ -105,13 +103,22 @@ export default {
     goPlayRecord: function(id) {
       this.$router.push({path: '/playRecord', query: { id: id }})
     },
+    dailySign: function (id) {
+      service.dailySign(id).then(function (res) {
+        console.log(res);
+        if(res.code == 200) {
+            alert('签到成功！');
+        }
+      })
+    },
     logout: function () {
         let vm = this;
       service.logout().then(function (res) {
         if(res.code == 200) {
             alert('退出登录成功！');
-            util.removeLocalStore('userName');
+            util.removeLocalStore('user');
             vm.SET_PROFILE({});
+            vm.push('/login');
         }
       });
     }
@@ -122,7 +129,7 @@ export default {
 <style scoped>
   .profile-info {
     width: 100%;
-    height: 30%;
+    height: 40%;
   }
   .profile-info-content {
     width: 100%;
@@ -134,18 +141,18 @@ export default {
   }
   .list-group {
     margin-top: 1rem;
-    font-size: 1.2rem;
     background: #fff;
+  }
+  .list-item.ivu-cell {
+    font-size: 1.2rem!important;
   }
   .account-count-box {
     clear: both;
+    padding-top: 1rem;
     text-align: center;
+    font-size: 1.2rem;
   }
-  .daily-sign {
-    /*position: absolute;*/
-    /*right: 5%;*/
-    /*top: 20%;*/
-  }
+
   .profile-avatar {
     width: 40%;
     border-radius: 50%;
@@ -156,5 +163,7 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-size: 1.4rem;
+    line-height: 2;
   }
 </style>

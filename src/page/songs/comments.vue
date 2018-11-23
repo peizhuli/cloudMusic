@@ -101,6 +101,10 @@
           if(content != '') {
             service.comment(t, id, type, content).then(function (res) {
               console.log(res);
+              if(res.code == 200) {
+                  alert('发布成功！');
+                  vm.commentContent = '';
+              }
             })
           }
         }
@@ -110,7 +114,8 @@
 
 <style scoped>
   .similar-songs-box {
-    height: 20%;
+    height: 25%;
+    font-size: 2rem;
   }
   .similar-song-info-box,
   .similar-song-info-box > div {

@@ -18,7 +18,7 @@
   .goTop {
     position: fixed;
     right: 5%;
-    bottom: 3%;
+    bottom: 5%;
     width: 4rem;
     height: 4rem;
     text-align: center;

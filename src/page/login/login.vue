@@ -35,7 +35,7 @@
 <script>
   import service from '../../service/service';
   import util from '../../utils/util';
-  import { mapState, mapMutations } from 'vuex';
+  import { mapState, mapMutations, mapActions } from 'vuex';
   export default {
       data() {
           return {
@@ -44,7 +44,8 @@
           }
       },
     methods: {
-        ...mapMutations(['SET_PROFILE', 'SET_ACCOUNT', 'GET_USER_FANS', 'GET_USER_FOLLOWS', 'GET_USER_INFO_COUNT']),
+        ...mapMutations(['SET_PROFILE', 'SET_ACCOUNT']),
+      ...mapActions(['getLikeMusicList']),
           login: function() {
               var vm = this;
               service.loginWidthEmail(vm.userName, vm.password).then(function(res) {
@@ -52,22 +53,8 @@
                     util.setCookie('tokenJsonStr', res.bindings["0"].tokenJsonStr, res.bindings["0"].expiresIn);
                     vm.SET_PROFILE(res);
                     util.setLocalStore('user', res);
-//                    service.getUserFans(res.profile.userId, 30, 0).then(function (res) {
-//                      if(res.code == 200) {
-//                          vm.GET_USER_FANS(res.followeds);
-//                      }
-//                    });
-//                    service.getUserFocusList(res.profile.userId, 30, 0).then(function (res) {
-//                      if(res.code == 200) {
-//                          vm.GET_USER_FOLLOWS(res.follow);
-//                      }
-//                    });
-                    var uid = res.profile.userId;
-//                    service.getUserDetailInfo(uid).then(function(userDetail) {
-//                        if(userDetail.code == 200) {
-//                            vm.GET_USER_INFO_COUNT(userDetail.profile);
-//                        }
-//                    });
+//                    var uid = res.profile.userId;
+                    vm.getLikeMusicList();
                         alert('登陆成功！');
                         vm.$router.push('/account');
                   }

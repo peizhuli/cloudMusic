@@ -52,6 +52,7 @@
   .header-bar {
     position: fixed;
     width: 100%;
+    max-width: 750px;
     height: 4rem;
     line-height: 4rem;
     text-align: center;
@@ -73,8 +74,10 @@
     line-height: 4rem;
   }
   .play-music-icon {
-    float: right;
     margin-right: 5%;
     line-height: 4rem;
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 </style>

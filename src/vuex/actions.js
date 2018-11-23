@@ -18,5 +18,14 @@ export default {
         commit('SET_PLAY_LIST', res);
       })
     }
+  },
+  async getLikeMusicList({state, commit}) {
+    if(localStorage.getItem('user')) {
+      let userId = JSON.parse(localStorage.getItem('user')).profile.userId;
+      await service.getLikeMusicList(userId).then(function(res) {
+        console.log(res);
+        commit('SET_LIKE_MUSIC_LIST', res.ids);
+      })
+    }
   }
 }

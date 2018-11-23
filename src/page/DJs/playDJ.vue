@@ -1,5 +1,21 @@
 <template>
   <div class="app-content">
+    <div class="dj-info-box">
+      <Row class="right-content-box">
+        <Col span="6">
+          <img :src="DJDetailInfo.picUrl" />
+        </Col>
+        <Col span="18" class="right-info-box">
+          <div class="user-info">
+            <div>{{ DJDetailInfo.name }}</div>
+            <Avatar :src="DJDetailInfo.dj.avatarUrl"></Avatar>
+            <span>{{ DJDetailInfo.dj.nickname }} - {{ DJDetailInfo.dj.signature }}</span>
+          </div>
+          <div class="desc">{{ DJDetailInfo.desc }}</div>
+          <!--<div>{{ DJDetailInfo.rcmdText }}</div>-->
+        </Col>
+      </Row>
+    </div>
     <audio :src="DJUrl" controls />
   </div>
 </template>
@@ -38,3 +54,17 @@
     }
   }
 </script>
+<style scoped>
+  .dj-info-box {
+    padding: 1rem;
+  }
+  .user-info {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;;
+  }
+  .desc {
+    font-size: 1rem;
+    color: #999;
+  }
+</style>

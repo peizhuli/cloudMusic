@@ -2,8 +2,7 @@
  * Created by Y on 2018/10/25.
  */
 const state = {
-  account: {},
-  profile: {},
+  user: {},
   collectList: [],
   playRecords: [],
   playList: [],
@@ -14,7 +13,8 @@ const state = {
   followsCount: 0,    //关注数量
   eventCount: 0, //动态
   // playlistCount: 0  //歌单
-  currentMusicId: ''
+  currentMusicId: '',
+  likeMusicList: []
 };
 
 export default state;

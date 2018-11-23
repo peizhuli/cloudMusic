@@ -2,13 +2,13 @@
   <div class="app-content">
     <div class="dj-detail-info-box">
       <div class="dj-category-item" v-for="item in programs" :key="item.id" @click="$router.push({path: '/PlayDJ', query: { id: item.radio.id }})">
-        <Row>
+        <Row class="right-content-box">
           <Col :xs="{span: 8}">
           <img :src="item.coverUrl" />
           </Col>
-          <Col :xs="{span: 16}">
+          <Col :xs="{span: 16}" class="right-info-box">
           <div>{{ item.name }}</div>
-          <div>{{ item.description.length > 100 ? item.description.substr(0,99) + '...' : item.description }}</div>
+          <div class="desc">{{ item.description.length > 70 ? item.description.substr(0,70) + '...' : item.description }}</div>
           </Col>
         </Row>
       </div>
@@ -39,3 +39,10 @@
     }
   }
 </script>
+
+<style scoped>
+  .desc {
+    font-size: 1rem;
+    color: #999;
+  }
+</style>

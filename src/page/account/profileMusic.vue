@@ -36,7 +36,7 @@
         <Icon type="ios-settings-outline" size="30" color="#999" />
       </div>
       <div class="play-list">
-        <div class="play-list-item" v-for="item in playList" :key="item.id">
+        <div class="play-list-item" v-for="item in playList" :key="item.id" @click="$router.push({path: '/songsCategoryDetail', query: {id: item.id}})">
           <Row>
             <Col :xs="{span: 6}">
               <img :src="item.coverImgUrl" />
@@ -124,6 +124,13 @@
               }
           });
         })
+      },
+      toggleCollectMusic: function(id) {
+          let vm = this;
+          let t= 2;
+          service.toggleCollectMusic(t, id).then(function (res) {
+            console.log(res);
+          })
       },
       formatterTime: function (time) {
         return util.formatterTime(time);

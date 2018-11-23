@@ -2,7 +2,7 @@
   <div class="bottom-tab-bar">
     <Row class="tab-bar-box" type="flex" justify="center" align="middle">
       <Col span="6">
-        <div @click="$router.push('/')">
+        <div @click="$router.push('/homeSpecialRecommend')">
           <Icon type="ios-at-outline" size="30" />
           <p>推荐</p>
         </div>
@@ -34,6 +34,7 @@
     position: fixed;
     bottom: 0;
     width: 100%;
+    max-width: 750px;
     height: 4rem;
     text-align: center;
     color: #fff;
@@ -42,5 +43,8 @@
   }
   .tab-bar-box {
     height: 100%;
+  }
+  .tab-bar-box > div {
+    cursor: pointer;
   }
 </style>

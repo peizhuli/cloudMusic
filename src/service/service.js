@@ -71,6 +71,8 @@ const API = {
   playListOparation: (option, id, tracks) => request.get('/playlist/tracks?op=' + option + '&pid=' + id + '&tracks=' + tracks, null, BASEAPI),
   //收藏/取消收藏歌单（type：1:收藏,2:取消收藏）
   toggleCollectMusic: (type, id) => request.get('/playlist/subscribe?t=' + type + '&id=' + id, null, BASEAPI),
+  //喜欢的音乐列表
+  getLikeMusicList: (id) => request.get('/likelist?uid=' + id, null, BASEAPI),
   //喜欢/取消喜欢音乐
   likeMusic: (IsLike, id) => request.get('/like?id=' + id, null, BASEAPI),
   //(删除)评论 (t=1 评论， t=0 删除评论) type: 0: 歌曲 1: mv,2: 歌单,3: 专辑,4: 电台,5: 视频

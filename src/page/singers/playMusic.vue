@@ -8,7 +8,7 @@
     <!--<p>{{ lyric }}</p>-->
     <Row class="song-action-box">
       <Col span="6">
-        <Icon type="ios-heart-outline" size="30" @click="toggleLikeMusic(musicId)" />
+        <Icon :type="IsLike ? 'ios-heart' : 'ios-heart-outline'" :color="IsLike ? '#d6413d' : ''" size="30" @click="toggleLikeMusic()" />
       </Col>
       <Col span="6">
         <Icon type="ios-download-outline" size="30" />
@@ -36,14 +36,29 @@
     <audio id="audio" :src="playUrl" style=""></audio>
 
     <div class="play-action-box">
+      <Icon type="ios-shuffle" size="40" color="#d6413d" />
       <Icon type="ios-skip-backward-outline" size="40" color="#d6413d"/>
       <Icon :type="IsPlay ? 'ios-pause-outline' : 'ios-play-outline'" size="40" color="#d6413d" @click="togglePlay()" />
-      <!--<Icon type="md-heart-outline" size="30" color="d6413d" />-->
-      <!--<Icon type="ios-pause-outline" />-->
       <Icon type="ios-skip-forward-outline" size="40" color="#d6413d" />
-      <Icon type="md-more" size="40" @click="getUserPlayLists" />
+      <!--<Icon type="md-more" size="40" @click="getUserPlayLists" />-->
+      <Icon type="ios-options" size="40" @click="getUserPlayLists" />
     </div>
-
+    <div class="play-list-box" ref="playListBox">
+      <div class="list-padding" @click="hidePlayList()"></div>
+      <div class="play-list">
+        <div class="play-item" v-for="item in allPlayList" :key="item.song.id">
+          <Row class="">
+            <Col span="22">
+            <div class="">{{ item.song.name }} - {{ item.song.ar["0"].name }}</div>
+            <div v-if="item.song.alia.length" style="color: #999; font-size: 1rem;">{{ item.song.alia["0"] }}</div>
+            </Col>
+            <Col span="2">
+            <Icon type="ios-trash-outline" size="30" color="#d6413d" />
+            </Col>
+          </Row>
+        </div>
+      </div>
+    </div>
     <lrc :lrcList="lyric" :currentTime="currentTime" @hideLrc="IsShowLrc = false" v-if="IsShowLrc"></lrc>
   </div>
 </template>
@@ -70,7 +85,8 @@
             IsPlay: false,
             musicInfo: {},
             IsShowLrc: false,
-            allPlayList: []
+            allPlayList: [],
+            IsLike: false
           }
       },
     components: {
@@ -85,8 +101,11 @@
         this.getMusicComment(this.musicId);
         this.getMusicDuration();
     },
+    computed: {
+      ...mapState(['likeMusicList'])
+    },
     methods: {
-      ...mapMutations(['SET_CURRENT_MUSIC_ID']),
+      ...mapMutations(['SET_CURRENT_MUSIC_ID', 'SET_LIKE_MUSIC_LIST']),
       getMusicDetail: function (id) {
           let vm = this;
           service.getSongDetail(id).then(function (res) {
@@ -105,6 +124,11 @@
                       })
                   });
                   vm.SET_CURRENT_MUSIC_ID(id);
+                  vm.likeMusicList.map(function (item) {
+                    if(item == id) {
+                        vm.IsLike = true;
+                    }
+                  })
               }
           },
       getMusicLyric: function(id) {
@@ -160,10 +184,18 @@
       slideMusicTime: function(value) {
         audio.currentTime = this.currentTime = value;
       },
-      toggleLikeMusic: function (id) {
+      toggleLikeMusic: function () {
         let vm = this;
-        service.likeMusic(id).then(function (res) {
-          console.log(res);
+        service.likeMusic(!vm.IsLike, vm.musicId).then(function (res) {
+          //更新state
+          if(res.code == 200) {
+            alert(vm.IsLike ? '取消喜欢' : '已喜欢');
+            let currentLikeMusicList = vm.likeMusicList;
+            vm.IsLike ? currentLikeMusicList.splice(currentLikeMusicList.indexOf(vm.musicId), 1) : currentLikeMusicList.push(vm.musicId);
+            vm.SET_LIKE_MUSIC_LIST(currentLikeMusicList);
+            vm.IsLike = !vm.IsLike;
+          }
+
         })
       },
       showLrc: function () {
@@ -188,7 +220,17 @@
           console.log('最近播放',res);
           if(res.code == 200) {
             vm.allPlayList = res.allData;
+            vm.$refs.playListBox.style.bottom = '4rem';
           }
+        })
+      },
+      hidePlayList: function() {
+        this.$refs.playListBox.style.bottom = '-100%';
+      },
+      delPlayMusic: function (id, str) {
+        let vm = this;
+        service.playListOparation('del', id, str).then(function (res) {
+          console.log(res);
         })
       }
     },
@@ -201,7 +243,7 @@
 <style scoped>
   .playing-audio-box {
     width: 100%;
-    height: 70%;
+    height: 80%;
   }
   .song-action-box {
     text-align: center;
@@ -219,7 +261,48 @@
     border-radius: 50%;
     overflow: hidden;
   }
+  .play-action-box i {
+    cursor: pointer;
+  }
   .audio-pic-box > img {
     max-width: 100%;
+  }
+  .play-list-box {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 99;
+    bottom: -100%;
+    transition: all 0.7s;
+  }
+  .list-padding {
+    width: 100%;
+    height: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .play-list {
+    width: 100%;
+    height: 60%;
+    padding: 2rem;
+    font-size: 1.2rem;
+    background: #fff;
+    overflow: hidden;
+    overflow-y: auto;
+  }
+  .play-item {
+    margin-bottom: 1rem;
+  }
+</style>
+<style>
+  .ivu-slider-button,
+  .ivu-slider-button-dragging,
+  .ivu-slider-button:focus,
+  .ivu-slider-button:hover {
+    border: 2px solid #d6413d;
+  }
+  .ivu-slider-bar {
+    background: #d6413d;
   }
 </style>

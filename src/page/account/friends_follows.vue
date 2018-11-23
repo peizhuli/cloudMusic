@@ -1,12 +1,12 @@
 <template>
   <div class="app-content">
     <div class="follows-box">
-      <div class="follow-item" v-for="item in follows" :key="item.userId">
+      <div class="events-item" v-for="item in follows" :key="item.userId">
         <Row>
-          <Col :xs="{span:4}" class="avatar-box">
+          <Col :xs="{span:2}" class="avatar-box">
           <Avatar :src="item.avatarUrl"></Avatar>
           </Col>
-          <Col :xs="{span: 18}">
+          <Col :xs="{span: 22}" class="event-content">
           <div>{{ item.nickname }}  | 粉丝：{{ item.followeds }} |  关注：{{ item.follows }}</div>
           <div>{{ item.signature }}</div>
           </Col>

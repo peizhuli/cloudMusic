@@ -2,11 +2,11 @@
   <div class="app-content">
     <div class="dj-category-info-box">
       <div class="dj-category-item" v-for="item in djCategoryList" :key="item.id" @click="$router.push({path: '/DJDetail', query: { id: item.id }})">
-        <Row>
+        <Row class="right-content-box" type="flex" align="center">
           <Col :xs="{span: 8}">
             <img :src="item.picUrl" />
           </Col>
-          <Col :xs="{span: 16}">
+          <Col :xs="{span: 16}" class="right-info-box">
             <div>{{ item.name }}</div>
             <div>{{ item.rcmdtext }}</div>
             <div>{{ item.lastProgramName }}</div>

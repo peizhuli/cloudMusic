@@ -4,6 +4,10 @@ import store from '../vuex/store';
 
 import Home from '@/page/home/home';
 import Search from '@/page/search/search';
+import HomePlayList from '@/page/home/playList';
+import HomeSpecialRecommend from '@/page/home/specialRecommend';
+import HomeTopMusicList from '@/page/home/topMusicList';
+import HomeDJ from '@/page/DJs/DJs';
 
 import Login from '@/page/login/login';
 import Account from '@/page/account/account';
@@ -50,9 +54,40 @@ const routes = new Router({
       path: '/',
       name: 'Home',
       component: Home,
-      meta: {
-        requireAuth: true
-      }
+      children: [
+        {
+          path: 'homePlayList',
+          name: 'HomePlayList',
+          component: HomePlayList,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: 'homeSpecialRecommend',
+          name: 'HomeSpecialRecommend',
+          component: HomeSpecialRecommend,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: 'homeTopMusicList',
+          name: 'HomeTopMusicList',
+          component: HomeTopMusicList,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: 'homeDJ',
+          name: 'HomeDJ',
+          component: HomeDJ,
+          meta: {
+            requireAuth: true
+          }
+        }
+      ]
     },
     {
       path: '/login',
@@ -318,7 +353,7 @@ const routes = new Router({
 
 routes.beforeEach((to, from, next) => {
   let user = JSON.parse(localStorage.getItem('user'));
-  if(to.meta.requireAuth && !user.profile) {
+  if(to.meta.requireAuth && !user) {
     next(false);
     routes.push('/login');
   } else {

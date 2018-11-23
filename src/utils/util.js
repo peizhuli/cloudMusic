@@ -31,15 +31,23 @@ export default {
     window.localStorage.removeItem(attr);
   },
   setCookie: (name,value,time) => {
-    var strsec = time;
-    var exp = new Date();
+    let strsec = time;
+    let exp = new Date();
     exp.setTime(exp.getTime() + strsec*1);
     document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
   },
   formatterDuration: (duration) => {
-    let mininus = parseInt(duration / 60) < 10 ? '0' +  parseInt(duration / 60) : parseInt(duration / 60);
+    let time = '';
+    let mininus = '';
+    let hour = parseInt(duration / 60 / 60);
+    hour = hour > 0 ? hour < 10 ? '0' + hour : hour : 0;
+    if(hour > 0) {
+      mininus = parseInt(duration / (hour * 60 )) < 10 ? '0' +  parseInt(duration / (hour * 60)) : parseInt(duration / (hour * 60));
+    } else {
+      mininus = parseInt(duration / 60) < 10 ? '0' +  parseInt(duration / 60) : parseInt(duration / 60);
+    }
     let sec = parseInt(duration % 60) < 10 ? '0' + parseInt(duration % 60) : parseInt(duration % 60);
-    let time = mininus + ':' + sec;
+    time = hour > 0 ? hour + ':' + mininus + ':' + sec : mininus + ':' + sec;
     return time;
   },
   formatterTime: function (time) {

@@ -9,7 +9,7 @@
         <TabPane label="热门" name="hot">
           <ul class="hot-songs-list">
             <li v-for="item in artistHotSongs" :key="item.id" @click="goPlayMusic(item.id)">
-              <Icon type="ios-heart-outline" @click.stop="likeMusic(true, item.id)" />
+              <Icon type="ios-heart-outline" @click.stop="likeMusic(!IsLike, item.id)" />
               <span>{{ item.name }}</span>
             </li>
           </ul>
@@ -56,6 +56,7 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
   import service from '../../service/service';
   export default {
       mounted() {
@@ -72,8 +73,12 @@
             artistInfo: {},
             artistHotSongs: [],
             artistMVs: [],
-            artistAlbums: []
+            artistAlbums: [],
+            IsLike: false
           }
+    },
+    computed: {
+      ...mapState(['likeMusicList'])
     },
     methods: {
           getArtistPlays: function(uid) {
@@ -86,6 +91,15 @@
                 vm.artistHotSongs = res.hotSongs;
               });
           },
+      getIsLike: function(id) {
+        this.IsLike = false;
+        this.artistHotSongs.each();
+        this.likeMusicList.map(function(item) {
+          if(item == id) {
+            this.IsLike = true;
+          }
+        })
+      },
       getArtistAlbum: function(uid) {
               let vm = this;
               service.getArtistAlbum(uid).then(function (res) {
@@ -145,11 +159,10 @@
     display: inline-block;
     padding-left: 1rem;
   }
-  /*.info-title::before {*/
-    /*content: "";*/
-    /*display: inline-block;*/
-    /*width: 5px;*/
-    /*height: 100%;*/
-    /*background: #d6413d;*/
-  /*}*/
+  .hot-songs-list {
+    padding: 1rem 2rem;
+    text-align: left;
+    font-size: 1.2rem;
+    line-height: 2;
+  }
 </style>
