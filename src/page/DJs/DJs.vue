@@ -31,7 +31,7 @@
       <span>付费精选</span>
     </div>
     <div class="dj-box">
-      <Row class="dj-list" type="flex" align="center">
+      <Row class="dj-list">
         <Col span="6" class="dj-item" v-for="item in wellChosenDJs" :key="item.id" @click="getDJDetail(item.id)">
           <img :src="item.picUrl" />
           <p>{{ item.name }}</p>
@@ -82,7 +82,6 @@
           this.getRecommendDJs();
           this.getDJTypes();
           this.getDJPayLists();
-          this.getDJCategoryRecommend();
       },
       data() {
           return {
@@ -91,7 +90,6 @@
             DJPrograms: [],
             wellChosenDJs: [],
             TypeIndex: 0,
-            djIndexs: ['10001', '2', '6', '5', '3', '2001', '11'],
             djLists: []
           }
       },
@@ -108,9 +106,11 @@
       getDJTypes: function() {
               let vm = this;
               service.getDJType().then(function (res) {
-//                console.log(res);
                 if(res.code == 200) {
                   vm.DJCategories = res.categories;
+                  vm.$nextTick(function () {
+                    vm.getDJCategoryRecommend();
+                  })
                 }
               })
       },
@@ -134,16 +134,14 @@
         let vm = this;
         vm.djLists = [];
         let currentIndex = '';
-        for(let i=0;i<vm.djIndexs.length;i++) {
-          currentIndex =  vm.djIndexs[i];
+        for(let i=0;i<6;i++) {
+          currentIndex =  vm.DJCategories[i].id;
           service.getDJCategoryRecommend(currentIndex).then(function (res) {
-              console.log(res);
             if(res.code == 200) {
               vm.djLists.push(res.djRadios.splice(0,3));
             }
           })
         }
-        console.log(vm.djLists);
       }
     }
   }

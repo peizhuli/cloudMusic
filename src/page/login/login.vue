@@ -44,17 +44,18 @@
           }
       },
     methods: {
-        ...mapMutations(['SET_PROFILE', 'SET_ACCOUNT']),
-      ...mapActions(['getLikeMusicList']),
+        ...mapMutations(['SET_PROFILE']),
+      ...mapActions(['getLikeMusicList', 'getUserSubcount']),
           login: function() {
               var vm = this;
               service.loginWidthEmail(vm.userName, vm.password).then(function(res) {
                   if(res.code == 200) {
-                    util.setCookie('tokenJsonStr', res.bindings["0"].tokenJsonStr, res.bindings["0"].expiresIn);
+                    util.setCookie('tokenJsonStr', res.bindings["0"].tokenJsonStr);
+                    util.setCookie('expired', res.bindings["0"].expiresIn);
                     vm.SET_PROFILE(res);
                     util.setLocalStore('user', res);
-//                    var uid = res.profile.userId;
                     vm.getLikeMusicList();
+                    vm.getUserSubcount();
                         alert('登陆成功！');
                         vm.$router.push('/account');
                   }

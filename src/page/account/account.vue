@@ -23,16 +23,18 @@
               </div>
             </Col>
             <Col span="6">
-            <div>关注</div>
-            <div>{{ followsCount }}</div>
+              <div @click="$router.push({path: '/friends/follows'})">
+                关注
+                <div>{{ followsCount }}</div>
+              </div>
             </Col>
             <Col span="6">
-            <div>粉丝</div>
-            <div>{{ followedsCount }}</div>
+              <div>粉丝</div>
+              <div>{{ followedsCount }}</div>
             </Col>
             <Col span="6">
-            <div><Icon type="md-create" /></div>
-            <div>我的资料</div>
+              <div><Icon type="md-create" /></div>
+              <div>我的资料</div>
             </Col>
           </Row>
         </div>
@@ -79,7 +81,6 @@ import util from '../../utils/util';
 import service from '../../service/service';
 export default {
   mounted() {
-    this.getUserInfo();
     this.profileBackUrl = "url(" + this.user.profile.backgroundUrl + ") center no-repeat";
   },
     data() {
@@ -94,18 +95,8 @@ export default {
 	},
 	methods: {
     ...mapMutations(['SET_PROFILE']),
-    getUserInfo: function() {
-      console.log(this.user);
-    },
-    goCollections: function(id) {
-      this.$router.push({path: '/collection', query: { id: id }});
-    },
-    goPlayRecord: function(id) {
-      this.$router.push({path: '/playRecord', query: { id: id }})
-    },
-    dailySign: function (id) {
-      service.dailySign(id).then(function (res) {
-        console.log(res);
+    dailySign: function () {
+      service.dailySign(1).then(function (res) {
         if(res.code == 200) {
             alert('签到成功！');
         }

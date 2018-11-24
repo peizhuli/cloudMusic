@@ -53,7 +53,7 @@
             <div v-if="item.song.alia.length" style="color: #999; font-size: 1rem;">{{ item.song.alia["0"] }}</div>
             </Col>
             <Col span="2">
-            <Icon type="ios-trash-outline" size="30" color="#d6413d" />
+            <Icon type="ios-trash-outline" size="30" color="#d6413d" @click="delPlayMusic(item.song.al.id, item.song.id)" />
             </Col>
           </Row>
         </div>
@@ -293,16 +293,5 @@
   }
   .play-item {
     margin-bottom: 1rem;
-  }
-</style>
-<style>
-  .ivu-slider-button,
-  .ivu-slider-button-dragging,
-  .ivu-slider-button:focus,
-  .ivu-slider-button:hover {
-    border: 2px solid #d6413d;
-  }
-  .ivu-slider-bar {
-    background: #d6413d;
   }
 </style>

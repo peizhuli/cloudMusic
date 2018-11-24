@@ -3,7 +3,7 @@
     <Carousel :autoplay="true" :loop="true" :autoplay-speed="2000">
       <CarouselItem v-for="item in banners" :key="item.url">
         <div class="demo-carousel">
-          <img :src="item.picUrl" @click="goTarget(item.targetId)" />
+          <img :src="item.picUrl" @click="goTarget(item.url, item.targetId)" />
         </div>
       </CarouselItem>
     </Carousel>
@@ -103,14 +103,15 @@
         var vm = this;
         service.getBanner().then(function(res) {
           if(res.code == 200) {
+              console.log(res);
             vm.banners = res.banners;
           }
         });
       },
-      goTarget: function(id) {
-        if(id.length) {
-          if(id.startsWith('http')) {
-            window.location.href = id;
+      goTarget: function(url, id) {
+        if(url.length) {
+          if(url.startsWith('http')) {
+            window.location.href = url;
           } else {
             this.$router.push({ path: '/album/albumDetail', query: { id : id} });
           }

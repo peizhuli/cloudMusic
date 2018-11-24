@@ -19,6 +19,10 @@
       currentMusic,
       goTop
     },
+    mounted() {
+        let currentPath = this.$route.name;
+        this.refreshCurrentPage(currentPath);
+    },
     data() {
         return {
             menuList: [
@@ -46,7 +50,34 @@
         goToPage: function (path, index) {
           this.$router.push(path);
           this.currentIndex = index;
+        },
+      refreshCurrentPage: function (currentPath) {
+        switch(currentPath) {
+          case 'HomeSpecialRecommend': {
+            this.currentIndex = 0;
+            this.$router.replace('/homeSpecialRecommend')
+            break;
+          }
+          case 'HomePlayList': {
+            this.currentIndex = 1;
+            break;
+          }
+          case 'HomeDJ': {
+            this.currentIndex = 2;
+            break;
+          }
+          case 'HomeTopMusicList': {
+            this.currentIndex = 3;
+            break;
+          }
+          default : {
+            this.currentIndex = 0;
+            this.$router.replace('/homeSpecialRecommend')
+            break;
+          }
         }
+
+      }
     }
   }
 </script>

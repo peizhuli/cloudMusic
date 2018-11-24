@@ -23,8 +23,15 @@ export default {
     if(localStorage.getItem('user')) {
       let userId = JSON.parse(localStorage.getItem('user')).profile.userId;
       await service.getLikeMusicList(userId).then(function(res) {
-        console.log(res);
         commit('SET_LIKE_MUSIC_LIST', res.ids);
+      })
+    }
+  },
+  async getUserSubcount({state,commit}) {
+    if(localStorage.getItem('user')) {
+      let userId = JSON.parse(localStorage.getItem('user')).profile.userId;
+      service.getUserDetailInfo(userId).then(function(res) {
+        commit('GET_USER_INFO_COUNT', res.profile)
       })
     }
   }

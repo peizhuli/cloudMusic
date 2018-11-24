@@ -115,9 +115,6 @@ ul,li {
   top: 10%;
 }
 
-.left-img-box {
-
-}
 .right-content-box {
   display: flex;
   justify-content: center;
@@ -146,5 +143,15 @@ ul,li {
 }
 .play-name {
   height: 56px;
+}
+
+.ivu-slider-button,
+.ivu-slider-button-dragging,
+.ivu-slider-button:focus,
+.ivu-slider-button:hover {
+  border: 2px solid #d6413d;
+}
+.ivu-slider-bar {
+  background: #d6413d;
 }
 </style>

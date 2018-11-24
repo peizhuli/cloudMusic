@@ -1,12 +1,12 @@
 <template>
   <div class="app-content">
     <div class="recommend-list">
-      <div class="recommend-item" v-for="item in recommends" :key="item.id" @click="$router.push({path: '/playMusic', query: { id: item.id }})">
-        <Row class="recommend-item-content">
-          <Col :xs="{span: 6}">
+      <div v-for="item in recommends" :key="item.id" @click="$router.push({path: '/playMusic', query: { id: item.id }})">
+        <Row class="right-content-box">
+          <Col span="6">
             <img :src="item.album.picUrl" />
           </Col>
-          <Col :xs="{span: 18}">
+          <Col span="18" class="right-info-box">
             <div>{{ item.name }}</div>
             <div class="recommend-reason">{{ item.reason }}</div>
           </Col>
@@ -42,12 +42,6 @@
 </script>
 
 <style scoped>
-  .recommend-item-content {
-    display: flex;
-    align-items: center;
-    font-size: 1.2rem;
-    line-height: 1.8;
-  }
   .recommend-reason {
     white-space: nowrap;
     overflow: hidden;

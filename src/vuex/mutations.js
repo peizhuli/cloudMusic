@@ -3,7 +3,6 @@
  */
 
 const SET_PROFILE = 'SET_PROFILE';
-const SET_ACCOUNT = 'SET_ACCOUNT';
 const TOGGLE_COLLECT = 'TOGGLE_COLLECT';
 const SET_FOCUS_LIST = 'SET_FOCUS_LIST';
 const SET_PLAY_LIST = 'SET_PLAY_LIST';
@@ -31,8 +30,8 @@ export default {
 	  state.userFollows = userFollows;
   },
   [GET_USER_INFO_COUNT](state, profile) {
-	  state.followedsCount = profile.followedsCount;
-	  state.followsCount = profile.followsCount;
+	  state.followedsCount = profile.followeds;
+	  state.followsCount = profile.follows;
 	  state.eventCount = profile.eventCount;
   },
   [LOG_OUT](state) {
