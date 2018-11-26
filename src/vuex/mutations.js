@@ -35,8 +35,7 @@ export default {
 	  state.eventCount = profile.eventCount;
   },
   [LOG_OUT](state) {
-	  state.profile = {};
-	  state.state = {};
+	  state = {};
   },
   [SET_CURRENT_MUSIC_ID](state, currentMusicId) {
 	  state.currentMusicId = currentMusicId;

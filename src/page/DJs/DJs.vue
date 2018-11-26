@@ -136,6 +136,7 @@
         let currentIndex = '';
         for(let i=0;i<6;i++) {
           currentIndex =  vm.DJCategories[i].id;
+          console.log(m.DJCategories[i]);
           service.getDJCategoryRecommend(currentIndex).then(function (res) {
             if(res.code == 200) {
               vm.djLists.push(res.djRadios.splice(0,3));

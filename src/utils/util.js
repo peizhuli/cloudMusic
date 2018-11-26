@@ -9,10 +9,6 @@ export default {
     }
     window.sessionStorage.setItem(attr, value);
   },
-  getSessionStore: (attr) => {
-    if(!attr) return;
-    return window.sessionStorage.getItem(attr);
-  },
   removeSessionStore: (attr) => {
     window.sessionStorage.removeItem(attr);
   },
@@ -23,10 +19,6 @@ export default {
     }
     window.localStorage.setItem(attr, value);
   },
-  getLocalStore: (attr) => {
-    if(!attr) return;
-    return window.localStorage.getItem(attr);
-  },
   removeLocalStore: (attr) => {
     window.localStorage.removeItem(attr);
   },
@@ -35,6 +27,9 @@ export default {
     let exp = new Date();
     exp.setTime(exp.getTime() + strsec*1);
     document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+  },
+  delCookie: (name) => {
+    this.setCookie(name, "", -1);
   },
   formatterDuration: (duration) => {
     let time = '';

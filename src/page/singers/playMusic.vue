@@ -2,7 +2,7 @@
   <div class="app-content">
     <div class="playing-audio-box">
       <div class="audio-pic-box" @click="showLrc()">
-        <img :src="musicInfo.al.picUrl" />
+        <img ref="albumImg" id="albumImg" :src="musicInfo.al.picUrl" />
       </div>
     </div>
     <!--<p>{{ lyric }}</p>-->
@@ -37,9 +37,9 @@
 
     <div class="play-action-box">
       <Icon type="ios-shuffle" size="40" color="#d6413d" />
-      <Icon type="ios-skip-backward-outline" size="40" color="#d6413d"/>
+      <Icon type="ios-skip-backward-outline" size="40" color="#d6413d" @click.stop="preMusic()" />
       <Icon :type="IsPlay ? 'ios-pause-outline' : 'ios-play-outline'" size="40" color="#d6413d" @click="togglePlay()" />
-      <Icon type="ios-skip-forward-outline" size="40" color="#d6413d" />
+      <Icon type="ios-skip-forward-outline" size="40" color="#d6413d" @click.stop="nextMusic()" />
       <!--<Icon type="md-more" size="40" @click="getUserPlayLists" />-->
       <Icon type="ios-options" size="40" @click="getUserPlayLists" />
     </div>
@@ -86,26 +86,32 @@
             musicInfo: {},
             IsShowLrc: false,
             allPlayList: [],
-            IsLike: false
+            IsLike: false,
+            imgRotateAngle: 0
           }
       },
     components: {
       lrc
     },
+    computed: {
+      ...mapState(['likeMusicList', 'playRecords'])
+    },
     mounted() {
-      let audio = document.getElementById('audio');
       this.musicId = this.$route.query.id || this.$store.state.currentMusicId;
-      this.getMusicDetail(this.musicId);
+      this.allPlayList = this.playRecords.allData;
+      this.initPlay();
+    },
+    methods: {
+      ...mapMutations(['SET_CURRENT_MUSIC_ID', 'SET_LIKE_MUSIC_LIST']),
+      initPlay: function() {
+        this.getMusicDetail(this.musicId);
         this.getMusicUrl(this.musicId);
         this.getMusicLyric(this.musicId);
         this.getMusicComment(this.musicId);
         this.getMusicDuration();
-    },
-    computed: {
-      ...mapState(['likeMusicList'])
-    },
-    methods: {
-      ...mapMutations(['SET_CURRENT_MUSIC_ID', 'SET_LIKE_MUSIC_LIST']),
+        vm.imgRotateAngle = 0;
+        this.togglePlay();
+      },
       getMusicDetail: function (id) {
           let vm = this;
           service.getSongDetail(id).then(function (res) {
@@ -117,7 +123,6 @@
               let vm = this;
               if(id) {
                   service.getPlayUrl(id).then(function(res) {
-                      console.log(res);
                       vm.playUrl = res.data["0"].url;
                       vm.$nextTick(function () {
                         vm.getMusicDuration();
@@ -150,13 +155,13 @@
                     });
                   }
               }
-              console.log(vm.lyric);
           })
         }
       },
       getMusicDuration: function() {
           let vm = this;
-          audio.addEventListener('canplay',function () {
+        let audio = document.getElementById('audio');
+        audio.addEventListener('canplay',function () {
             let duration = audio.duration;
             vm.maxTime = parseInt(duration);
             duration = util.formatterDuration(duration);
@@ -172,16 +177,21 @@
       },
       togglePlay: function () {
         let vm = this;
+        let audio = document.getElementById('audio');
         vm.IsPlay = !vm.IsPlay;
         vm.IsPlay ? audio.play() : audio.pause();
+        let albumImg = document.getElementById('albumImg');
           audio.addEventListener('timeupdate',function () {
 //            if(!audio.paused) {
               vm.currentTime = audio.currentTime;
               vm.playTime = util.formatterDuration(audio.currentTime);
+              vm.imgRotateAngle = vm.imgRotateAngle < 360 ? vm.imgRotateAngle + 3 : 0;
+            albumImg.style.transform = 'rotate(' + vm.imgRotateAngle + 'deg)';
 //            }
           });
       },
       slideMusicTime: function(value) {
+        let audio = document.getElementById('audio');
         audio.currentTime = this.currentTime = value;
       },
       toggleLikeMusic: function () {
@@ -204,7 +214,6 @@
       getMusicComment: function (id) {
         let vm = this;
         service.getMusicComment(id).then(function (res) {
-          console.log(res);
           if(res.code == 200) {
             vm.hotComments = res.hotComments;
             vm.comments = res.comments;
@@ -217,7 +226,7 @@
       getUserPlayLists: function () {
         let vm = this;
         service.getUserPlayLists(vm.$store.state.user.profile.userId, 0).then(function (res) {
-          console.log('最近播放',res);
+//          console.log('最近播放',res);
           if(res.code == 200) {
             vm.allPlayList = res.allData;
             vm.$refs.playListBox.style.bottom = '4rem';
@@ -232,6 +241,30 @@
         service.playListOparation('del', id, str).then(function (res) {
           console.log(res);
         })
+      },
+      nextMusic: function () {
+        let vm = this;
+        let playIndex = 0;
+        vm.IsPlay = false;
+        vm.allPlayList.map(function(item, index) {
+            if(vm.musicId == item.song.id) {
+              playIndex = playIndex == vm.allPlayList.length - 1 ? 0 : index + 1;
+            }
+        });
+        vm.musicId = vm.allPlayList[playIndex].song.id;
+        vm.initPlay();
+      },
+      preMusic: function () {
+        let vm = this;
+        let playIndex = 0;
+        vm.IsPlay = false;
+        vm.allPlayList.map(function(item, index) {
+          if(vm.musicId == item.song.id) {
+            playIndex = playIndex == 0 ? vm.allPlayList.length - 1 : index - 1;
+          }
+        });
+        vm.musicId = vm.allPlayList[playIndex].song.id;
+        vm.initPlay();
       }
     },
     watch: {
@@ -293,5 +326,8 @@
   }
   .play-item {
     margin-bottom: 1rem;
+  }
+  #albumImg {
+    transition: all 0.1s;
   }
 </style>

@@ -45,17 +45,18 @@
       },
     methods: {
         ...mapMutations(['SET_PROFILE']),
-      ...mapActions(['getLikeMusicList', 'getUserSubcount']),
+      ...mapActions(['getLikeMusicList', 'getUserSubcount', 'getPlayRecords']),
           login: function() {
               var vm = this;
               service.loginWidthEmail(vm.userName, vm.password).then(function(res) {
                   if(res.code == 200) {
-                    util.setCookie('tokenJsonStr', res.bindings["0"].tokenJsonStr);
-                    util.setCookie('expired', res.bindings["0"].expiresIn);
+                    util.setCookie('tokenJsonStr', res.bindings["0"].tokenJsonStr, res.bindings["0"].expiresIn);
                     vm.SET_PROFILE(res);
                     util.setLocalStore('user', res);
+                    util.setLocalStore('store', vm.$store.state);
                     vm.getLikeMusicList();
                     vm.getUserSubcount();
+                    vm.getPlayRecords();
                         alert('登陆成功！');
                         vm.$router.push('/account');
                   }
