@@ -16,7 +16,7 @@
     <div class="similar-mv-box">
       <div class="similar-title">相似MV</div>
       <div class="similar-mv-list">
-        <div class="similar-mv-item" v-for="item in similarMVs" :key="item.id">
+        <div class="similar-mv-item" v-for="item in similarMVs" :key="item.id" @click="refreshVideo(item.id)">
           <Row class="mv-info-content">
             <Col :span="6">
             <img :src="item.cover" />
@@ -38,37 +38,41 @@
   import util from '../../utils/util';
   export default {
       mounted() {
-        let id = this.$route.query.id;
-        this.playMV(id);
-        this.getMVInfo(id);
-        this.getSimilarMV(id);
+        this.videoId = this.$route.query.id;
+        this.initVideo();
       },
       data() {
           return {
-              mvInfo: {},
-              videoUrl: '',
+            mvInfo: {},
+            videoUrl: '',
+            videoId: ''
             similarMVs: []
           }
       },
     methods: {
-          getMVInfo: function (mvId) {
-            let vm = this;
-            service.getMVDetail(mvId).then(function (res) {
-              console.log(res);
-              if(res.code == 200) {
-                  vm.mvInfo = res.data;
-              }
-            })
-          },
-          playMV: function(id) {
-              let vm = this;
-              if(id) {
-                service.getMVUrl(id).then(function(res) {
-                  console.log(res);
-                  vm.videoUrl = res.data.url;
-                })
-              }
-          },
+      initVideo: function () {
+        this.playMV(this.videoId);
+        this.getMVInfo(this.videoId);
+        this.getSimilarMV(this.videoId);
+      },
+      getMVInfo: function (mvId) {
+        let vm = this;
+        service.getMVDetail(mvId).then(function (res) {
+          console.log(res);
+          if(res.code == 200) {
+            vm.mvInfo = res.data;
+          }
+        })
+      },
+      playMV: function(id) {
+        let vm = this;
+        if(id) {
+          service.getMVUrl(id).then(function(res) {
+            console.log(res);
+            vm.videoUrl = res.data.url;
+          })
+        }
+      },
       getSimilarMV: function (id) {
         let vm = this;
         service.getSimilarMV(id).then(function (res) {
@@ -81,6 +85,11 @@
       formatterDuration: function (duration) {
               console.log(duration);
         return util.formatterDuration(duration);
+      },
+      refreshVideo: function(id) {
+        this.videoId = id;
+        this.initVideo();
+        window.scrollTop = 0;
       }
     }
   }

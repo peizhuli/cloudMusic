@@ -71,7 +71,7 @@
         <span>查看视频</span>
       </div>
       <div class="music-option-item" :disable="currentMVId == 0" @click.stop="$router.push({path: '/album/albumDetail', query: { id: currentAlbumId }})">
-        <Icon type="ios-albums-outline" size="30" color="#d6413d" />
+        <Icon type="tasklist" size="30" color="#d6413d" />
         <span>查看专辑</span>
       </div>
       <div class="music-option-item" :disable="currentMVId == 0" @click.stop="delSongFromPlayList(currentSongId)">

@@ -7,7 +7,6 @@
     </header-bar>
     <router-view/>
     <tab-bar v-if="this.$route.name != 'login'"></tab-bar>
-    <!--<left-side-menu></left-side-menu>-->
   </div>
 </template>
 
