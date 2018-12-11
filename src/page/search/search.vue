@@ -28,19 +28,19 @@
             <li v-for="item in searchSuggest.artists" :key="item.id" @click="searchMusic(item.name, '100',30,0)">
               <p>{{ item.name }}</p>
             </li>
-            <li v-for="item in searchSuggest.songs" :key="item.id" @click="searchMusic('1',30,0)">
+            <li v-for="item in searchSuggest.songs" :key="item.id" @click="searchMusic(item.name,'1',30,0)">
               <p>{{ searchSuggest.artists["0"].name }} {{ item.name }}</p>
             </li>
-            <li v-for="item in searchSuggest.mvs" :key="item.id" @click="searchMusic('1004',30,0)">
+            <li v-for="item in searchSuggest.mvs" :key="item.id" @click="searchMusic(item.name,'1004',30,0)">
               <p>{{ item.artists["0"].name }} {{ item.name }}</p>
             </li>
-            <li v-for="item in searchSuggest.playlists" :key="item.id" @click="searchMusic('1000',30,0)">
+            <li v-for="item in searchSuggest.playlists" :key="item.id" @click="searchMusic(item.name,'1000',30,0)">
               <p>{{ item.name }}</p>
             </li>
           </ul>
         </div>
       </div>
-      <div class="search-content">
+      <div class="search-content" v-if="searchArrs.length">
         <Tabs value="song">
           <TabPane label="单曲" name="song" @click="searchMusic(keyword, '1', 30, 0)">
             <ul class="">

@@ -23,13 +23,12 @@
           this.getHotSinger();
       },
     methods: {
-          getHotSinger: function() {
-              var vm = this;
-              service.getHotSinger().then(function(res) {
-                  console.log(res);
-                  vm.singers = res.artists;
-              });
-          },
+      getHotSinger: function() {
+        var vm = this;
+        service.getHotSinger().then(function(res) {
+          vm.singers = res.artists;
+        });
+      },
       getArtistPlay: function(id) {
         this.$router.push({path: '/artistPlay', query: { id: id }});
       }
