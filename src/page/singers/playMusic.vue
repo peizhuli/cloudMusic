@@ -1,7 +1,10 @@
 <template>
   <div class="app-content">
     <div class="playing-audio-box">
-      <div class="audio-pic-box" @click="showLrc()">
+      <div class="playing-bg-box">
+        <img :src="musicInfo.al ? musicInfo.al.picUrl : ''" />
+      </div>
+      <div :class="{'audio-pic-box': true, 'playing': IsPlay, 'pause': !IsPlay }" @click="showLrc()">
         <img ref="albumImg" id="albumImg" :src="musicInfo.al.picUrl" />
       </div>
     </div>
@@ -288,17 +291,36 @@
     padding-bottom: 5rem;
     /*text-align: center;*/
   }
+  .playing-bg-box {
+    position: absolute;
+    width: 300%;
+    height: 300%;
+    top: -50%;
+    left: -50%;
+    z-index: -1;
+    filter: blur(30px);
+    -webkit-filter: blur(30px);
+  }
+  .playing-bg-box img {
+    width: 100%;
+    height: 100%;
+  }
   .audio-pic-box {
-    width: 70%;
+    width: 60%;
     margin: 5% auto;
-    border-radius: 50%;
-    overflow: hidden;
+  }
+  .audio-pic-box.playing {
+    animation: rotate 30s linear infinite;
+  }
+  .audio-pic-box.pause {
+    animation-play-state: paused;
   }
   .play-action-box i {
     cursor: pointer;
   }
   .audio-pic-box > img {
-    max-width: 100%;
+    position: relative;
+    border-radius: 50%;
   }
   .play-list-box {
     width: 100%;
