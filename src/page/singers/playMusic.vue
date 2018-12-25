@@ -46,12 +46,12 @@
       <!--<Icon type="md-more" size="40" @click="getUserPlayLists" />-->
       <Icon type="ios-options" size="40" @click="getUserPlayLists" />
     </div>
-    <div class="play-list-box" ref="playListBox">
+    <div :class="{playListBox: true, show: IsShowPlayList}" ref="playListBox">
       <div class="list-padding" @click="hidePlayList()"></div>
       <div class="play-list">
         <div class="play-item" v-for="item in allPlayList" :key="item.song.id">
           <Row class="">
-            <Col span="22">
+            <Col span="22" @click="playSpecificMusic(item.song.id)">
             <div class="">{{ item.song.name }} - {{ item.song.ar["0"].name }}</div>
             <div v-if="item.song.alia.length" style="color: #999; font-size: 1rem;">{{ item.song.alia["0"] }}</div>
             </Col>
@@ -86,6 +86,7 @@
             duration: 0,
             playTime: '00:00',
             IsPlay: false,
+            IsShowPlayList: false,
             musicInfo: {},
             IsShowLrc: false,
             allPlayList: [],
@@ -229,15 +230,19 @@
       getUserPlayLists: function () {
         let vm = this;
         service.getUserPlayLists(vm.$store.state.user.profile.userId, 0).then(function (res) {
-//          console.log('最近播放',res);
           if(res.code == 200) {
             vm.allPlayList = res.allData;
-            vm.$refs.playListBox.style.bottom = '4rem';
+            vm.IsShowPlayList = true;
           }
         })
       },
+      playSpecificMusic: function(id) {
+        this.musicId = id;
+        this.IsShowPlayList = false;
+        this.initPlay();
+      },
       hidePlayList: function() {
-        this.$refs.playListBox.style.bottom = '-100%';
+        this.IsShowPlayList = false;
       },
       delPlayMusic: function (id, str) {
         let vm = this;
@@ -251,7 +256,7 @@
         vm.IsPlay = false;
         vm.allPlayList.map(function(item, index) {
             if(vm.musicId == item.song.id) {
-              playIndex = playIndex == vm.allPlayList.length - 1 ? 0 : index + 1;
+              playIndex = index == vm.allPlayList.length - 1 ? 0 : index + 1;
             }
         });
         vm.musicId = vm.allPlayList[playIndex].song.id;
@@ -263,7 +268,7 @@
         vm.IsPlay = false;
         vm.allPlayList.map(function(item, index) {
           if(vm.musicId == item.song.id) {
-            playIndex = playIndex == 0 ? vm.allPlayList.length - 1 : index - 1;
+            playIndex = index == 0 ? vm.allPlayList.length - 1 : index - 1;
           }
         });
         vm.musicId = vm.allPlayList[playIndex].song.id;
@@ -322,13 +327,16 @@
     position: relative;
     border-radius: 50%;
   }
-  .play-list-box {
+  .playListBox {
     width: 100%;
     height: 100%;
     position: absolute;
     z-index: 99;
-    bottom: -100%;
+    top: 100%;
     transition: all 0.7s;
+  }
+  .playListBox.show {
+    top: 0;
   }
   .list-padding {
     width: 100%;
