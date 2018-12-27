@@ -19,7 +19,7 @@
       <div class="hot-search-box">
         <p>热门搜索</p>
         <div>
-          <span class="hot-search-item" v-for="(item, index) in hotSearchArr" :key="index">{{ item.first }}</span>
+          <span class="hot-search-item" v-for="(item, index) in hotSearchArr" :key="index" @click="searchMusic(item.first, '1', 30, 0)">{{ item.first }}</span>
         </div>
       </div>
       <div class="search-suggest-box" v-if="keyword && searchSuggest.songs">
@@ -44,35 +44,35 @@
         <Tabs value="song">
           <TabPane label="单曲" name="song" @click="searchMusic(keyword, '1', 30, 0)">
             <ul class="">
-              <li v-for="item in searchArrs" :key="item.id">
+              <li v-for="item in searchArrs" :key="item.id" @click="this.$router.push({path: '/playMusic', query: { id: item.id }});">
                 {{ item.name }}
               </li>
             </ul>
           </TabPane>
           <TabPane label="歌手" name="artist" @click="searchMusic(keyword, '100', 30, 0)">
             <ul class="">
-              <li v-for="item in searchArrs" :key="item.id">
+              <li v-for="item in searchArrs" :key="item.id" @click="this.$router.push({path: '/artistPlay', query: { id: item.id }});">
                 {{ item.name }}
               </li>
             </ul>
           </TabPane>
           <TabPane label="专辑" name="album" @click="searchMusic(keyword, '10', 30, 0)">
             <ul class="">
-              <li v-for="item in searchArrs" :key="item.id">
+              <li v-for="item in searchArrs" :key="item.id" @click="this.$router.push({path: '/album/albumDetail', query: { id: item.id }});">
                 {{ item.name }}
               </li>
             </ul>
           </TabPane>
           <TabPane label="歌单" name="playLists" @click="searchMusic(keyword, '1', 30, 0)">
             <ul class="">
-              <li v-for="item in searchArrs" :key="item.id">
+              <li v-for="item in searchArrs" :key="item.id" @click="this.$router.push({path: '/songsCategoryDetail', query: { id: item.id }});">
                 {{ item.name }}
               </li>
             </ul>
           </TabPane>
           <TabPane label="视频" name="videos" @click="searchMusic(keyword, '1004', 30, 0)">
             <ul class="">
-              <li v-for="item in searchArrs" :key="item.id">
+              <li v-for="item in searchArrs" :key="item.id" @click="this.$router.push({path: '/playMV', query: { id: item.id }});">
                 {{ item.name }}
               </li>
             </ul>
@@ -144,8 +144,8 @@
     methods: {
           searchMusic: function (keyword, type, limit, offset) {
             let vm = this;
+            vm.keyword = keyword;
             service.searMusic(keyword, type, limit, offset).then(function (res) {
-              console.log(res);
               if(res.code == 200) {
                   vm.searchArrs = res.result.artists || res.result.songs || res.result.mvs || res.result.albums || res.result.playlists || [];
                   let count = res.songCount || res.artistCount || res.albumCount || res.playlistCount || res.mvCount || res.djprogramCount || res.userprofileCount;
