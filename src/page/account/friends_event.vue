@@ -1,5 +1,4 @@
 <template>
-  <div class="app-content">
     <div class="events-box">
       <div class="events-item" v-for="item in events" :key="item.id">
         <Row>
@@ -14,7 +13,6 @@
         </Row>
       </div>
     </div>
-  </div>
 </template>
 
 <script>

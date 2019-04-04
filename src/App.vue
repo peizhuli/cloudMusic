@@ -32,6 +32,7 @@ html,body {
   margin: 0 auto;
   background: #F3F4F6;
   font-family: PingFang SC, san Francisco;
+  overflow: hidden;
 }
 #app {
   width: 100%;
@@ -45,6 +46,7 @@ html,body {
   width: 100%;
   height: 100%;
   padding: 4rem 0;
+  overflow: auto;
 }
 .padBtm {
   padding-bottom: 4rem;

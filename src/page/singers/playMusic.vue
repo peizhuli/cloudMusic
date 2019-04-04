@@ -11,28 +11,28 @@
     <!--<p>{{ lyric }}</p>-->
     <Row class="song-action-box">
       <Col span="6">
-        <Icon :type="IsLike ? 'ios-heart' : 'ios-heart-outline'" :color="IsLike ? '#d6413d' : ''" size="30" @click="toggleLikeMusic()" />
+        <Icon :type="IsLike ? 'ios-heart' : 'ios-heart-outline'" :color="IsLike ? '#d6413d' : '#fff'" size="30" @click="toggleLikeMusic()" />
       </Col>
       <Col span="6">
-        <Icon type="ios-download-outline" size="30" />
+        <Icon type="ios-download-outline" size="30" color="#fff" />
       </Col>
       <Col span="6">
         <Badge :count="comments.length">
-          <Icon type="ios-text-outline" size="30" @click="$router.push({path: '/Comments', query: { type: 0, id: $route.query.id }})" />
+          <Icon type="ios-text-outline" size="30" color="#fff" @click="$router.push({path: '/Comments', query: { type: 0, id: $route.query.id }})" />
         </Badge>
       </Col>
       <Col span="6">
-        <Icon type="md-share" size="30" />
+        <Icon type="md-share" size="30" color="#fff" />
       </Col>
     </Row>
     <Row>
-      <Col span="3">
+      <Col span="3" style="text-align: center; color: #fff;">
         <span>{{ playTime }}</span>
       </Col>
       <Col span="18">
         <Slider :value="currentTime" :min="0" :max="maxTime" :tip-format="hideFormat" @on-change="slideMusicTime"></Slider>
       </Col>
-      <Col span="3">
+      <Col span="3" style="text-align: center; color: #fff;">
         <span>{{ duration }}</span>
       </Col>
     </Row>
@@ -44,7 +44,7 @@
       <Icon :type="IsPlay ? 'ios-pause-outline' : 'ios-play-outline'" size="40" color="#d6413d" @click="togglePlay()" />
       <Icon type="ios-skip-forward-outline" size="40" color="#d6413d" @click.stop="nextMusic()" />
       <!--<Icon type="md-more" size="40" @click="getUserPlayLists" />-->
-      <Icon type="ios-options" size="40" @click="getUserPlayLists" />
+      <Icon type="ios-options" size="40" color="#fff" @click="getUserPlayLists" />
     </div>
     <div :class="{playListBox: true, show: IsShowPlayList}" ref="playListBox">
       <div class="list-padding" @click="hidePlayList()"></div>
@@ -285,11 +285,13 @@
   .playing-audio-box {
     width: 100%;
     height: 80%;
+    position: relative;
   }
   .song-action-box {
     text-align: center;
   }
   .play-action-box {
+    position: relative;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -302,7 +304,7 @@
     height: 300%;
     top: -50%;
     left: -50%;
-    z-index: -1;
+    z-index: 0;
     filter: blur(30px);
     -webkit-filter: blur(30px);
   }
